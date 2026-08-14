@@ -3,98 +3,100 @@ from flask import Flask, abort, jsonify, render_template, request
 
 app = Flask(__name__)
 
-def get_vid(q):
+def youtube_id(query):
     try:
-        enc = urllib.parse.quote(q)
-        url = f"https://www.youtube.com/results?search_query={enc}"
+        url = "https://www.youtube.com/results?search_query=" + urllib.parse.quote(query)
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         data = urllib.request.urlopen(req, timeout=5).read().decode()
-        ids = re.findall(r"\"videoId\":\"([^\"]+)\"", data)
+        ids = re.findall(r'"videoId":"([^"]+)"', data)
         return ids[0] if ids else None
     except Exception:
         return None
 
-@app.route("/", methods=["GET"])
+@app.route("/")
 def home():
     return render_template("index.html")
 
 @app.route("/agent", methods=["POST"])
-def ai_agent_router():
-    d = request.get_json(silent=True)
-    if not d or ("command" not in d and "text_command" not in d):
+def agent():
+    data = request.get_json(silent=True)
+
+    if not data or not (data.get("command") or data.get("text_command")):
         abort(400)
 
-    cmd_raw = d.get("command") or d.get("text_command")
-    cmd = cmd_raw.strip().lower()
+    cmd = (data.get("command") or data.get("text_command")).strip().lower()
 
+    # YouTube
     if "youtube" in cmd:
-        q = cmd
-        patterns = [
-            "open youtube and search",
-            "open youtube and play",
-            "open youtube",
-            "search for",
-            "search",
-            "and play",
-            "play",
-            "on youtube"
-        ]
-        for p in patterns:
-            q = q.replace(p, "")
-        q = q.strip()
-        vid = get_vid(q)
-        if vid:
-            target = f"https://www.youtube.com/embed/{vid}?autoplay=1&mute=1"
-            msg = f"Playing {q}"
-        else:
-            enc = urllib.parse.quote_plus(q)
-            target = f"https://www.youtube.com/results?search_query={enc}"
-            msg = f"Searching YouTube for {q}"
-
-    elif any(k in cmd for k in ["gmail", "email", "mail", "message"]):
-        to, body = "", ""
-        clean_cmd = re.sub(
-            r'^(please\s+)?(open\s+)?(gmail|email|mail|message)\s*',
-            '',
+        q = re.sub(
+            r"\b(open youtube and search|open youtube and play|open youtube|search for|search|and play|play|on youtube)\b",
+            "",
             cmd
         ).strip()
 
-        clean_cmd = re.sub(r'\b(com(and|mand)?)\b', 'com', clean_cmd)
+        vid = youtube_id(q)
 
-        parts = re.split(r'\b(type|write|saying|message|content|with body)\b', clean_cmd)
-        recip_part = parts[0].strip()
-
-        recip_part = re.sub(r'^(update\s+to|to|send\s+to|and\s+update\s+to)\s*', '', recip_part).strip()
-
-        if len(parts) > 1:
-            body = parts[-1].strip()
-
-        if recip_part:
-            c = recip_part.replace(" at ", "@").replace(" dot ", ".").replace(" ", "")
-            c = re.sub(r'[^a-zA-Z0-9@._%-]', '', c)
-            to = c if "@" in c else f"{c}@gmail.com"
+        if vid:
+            url = f"https://www.youtube.com/embed/{vid}?autoplay=1&mute=1"
+            msg = f"Playing {q}"
         else:
-            to = "sharanbalaji2025@gmail.com"
+            url = "https://www.youtube.com/results?search_query=" + urllib.parse.quote_plus(q)
+            msg = f"Searching YouTube for {q}"
 
-        if not body:
-            body = "how was your day"
+    # Gmail
+    elif any(x in cmd for x in ("gmail", "email", "mail", "message")):
+        clean = re.sub(
+            r"^(please\s+)?(open\s+)?(gmail|email|mail|message)\s*",
+            "",
+            cmd
+        ).strip()
 
-        base = "https://mail.google.com/mail/u/0/?view=cm&fs=1"
-        params = urllib.parse.urlencode({"to": to, "body": body})
-        target = f"{base}&{params}"
-        msg = f"Drafting email to {to}"
+        parts = re.split(r"\b(?:type|write|saying|message|content|with body)\b", clean, maxsplit=1)
+        recipient = re.sub(
+            r"^(?:update\s+to|to|send\s+to|and\s+update\s+to)\s*",
+            "",
+            parts[0]
+        ).strip()
 
+        body = parts[1].strip() if len(parts) > 1 else "how was your day"
+
+        if recipient:
+            recipient = (
+                recipient.replace(" at ", "@")
+                .replace(" dot ", ".")
+                .replace(" ", "")
+            )
+            recipient = re.sub(r"[^a-zA-Z0-9@._%-]", "", recipient)
+
+            if "@" not in recipient:
+                recipient += "@gmail.com"
+        else:
+            recipient = "sharanbalaji2025@gmail.com"
+
+        params = urllib.parse.urlencode({
+            "to": recipient,
+            "body": body
+        })
+
+        url = f"https://mail.google.com/mail/u/0/?view=cm&fs=1&{params}"
+        msg = f"Drafting email to {recipient}"
+
+    # No Google search
     else:
-        enc = urllib.parse.quote_plus(cmd)
-        target = f"https://www.google.com/search?q={enc}"
-        msg = f"Searching Google for {cmd}"
+        return jsonify({
+            "success": False,
+            "message": "Command not supported. Use YouTube or Gmail."
+        }), 400
 
     return jsonify({
         "success": True,
         "message": msg,
-        "url": target
+        "url": url
     })
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
 
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000))
+    )
