@@ -44,7 +44,7 @@ def ai_agent_router():
         q = q.strip()
         vid = get_vid(q)
         if vid:
-             enc = urllib.parse.quote_plus(q)
+            enc = urllib.parse.quote_plus(q)
             target = f"https://www.youtube.com/results?search_query={enc}"
             msg = f"Searching YouTube for {q}"
         else:
