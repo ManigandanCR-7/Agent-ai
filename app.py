@@ -6,7 +6,7 @@ app = Flask(__name__)
 def get_vid(q):
     try:
         enc = urllib.parse.quote(q)
-        url = f"https://www.youtube.com/results?search_query={enc}"
+        url = f"https://www.youtube.com/embed/{enc}?autoplay=1&mute=1"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         data = urllib.request.urlopen(req, timeout=5).read().decode()
         ids = re.findall(r"\"videoId\":\"([^\"]+)\"", data)
@@ -48,7 +48,7 @@ def ai_agent_router():
             msg = f"Playing {q}"
         else:
             enc = urllib.parse.quote_plus(q)
-            target = f"https://www.youtube.com/results?search_query={enc}"
+            target = f"https://www.youtube.com/embed/{enc}?autoplay=1&mute=1"
             msg = f"Searching YouTube for {q}"
 
     elif any(k in cmd for k in ["gmail", "email", "mail", "message"]):
