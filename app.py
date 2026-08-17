@@ -44,12 +44,12 @@ def ai_agent_router():
         q = q.strip()
         vid = get_vid(q)
         if vid:
+            target = f"https://www.youtube.com/embed/{vid}?autoplay=1&mute=1"
+            msg = f"Playing {q}"
+        else:
             enc = urllib.parse.quote_plus(q)
             target = f"https://www.youtube.com/results?search_query={enc}"
             msg = f"Searching YouTube for {q}"
-        else:
-            target = f"https://www.youtube.com/embed/{enc}?autoplay=1&mute=1"
-            msg = f"Playing {q}"
 
     elif any(k in cmd for k in ["gmail", "email", "mail", "message"]):
         to, body = "", ""
