@@ -84,10 +84,7 @@ def ai_agent_router():
         target = f"{base}&{params}"
         msg = f"Drafting email to {to}"
 
-    else:
-        enc = urllib.parse.quote_plus(cmd)
-        target = f"https://www.google.com/search?q={enc}"
-        msg = f"Searching Google for {cmd}"
+    
 
     return jsonify({
         "success": True,
