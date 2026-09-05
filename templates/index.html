@@ -36,9 +36,6 @@
 
             --success: #22c55e;
             --danger: #ef4444;
-
-            --shadow:
-                0 25px 50px rgba(0, 0, 0, 0.55);
         }
 
 
@@ -98,14 +95,18 @@
 
             z-index: -3;
 
-            transform: scaleX(-1);
+            /*
+             * No scaleX(-1)
+             * because this is intended for the
+             * rear camera / real-world view.
+             */
 
             background: #030305;
         }
 
 
         /* =========================================================
-           CAMERA DARK OVERLAY
+           CAMERA OVERLAY
         ========================================================= */
 
         .camera-overlay {
@@ -189,10 +190,6 @@
             z-index: 10;
 
             opacity: 0;
-
-            transform:
-                translateY(30px)
-                scale(1);
 
             animation:
                 containerEntrance
@@ -280,14 +277,16 @@
 
             border-radius: 50%;
 
-            background: var(--success);
+            background:
+                var(--success);
 
             box-shadow:
                 0 0 10px
                 rgba(34, 197, 94, 0.8);
 
             animation:
-                statusPulse 2s
+                statusPulse
+                2s
                 infinite;
         }
 
@@ -340,7 +339,8 @@
 
         .subtitle {
 
-            color: var(--text-muted);
+            color:
+                var(--text-muted);
 
             font-size: 0.8rem;
 
@@ -392,6 +392,7 @@
         .ring-1 {
 
             width: 100%;
+
             height: 100%;
 
             border-top-color:
@@ -402,6 +403,7 @@
         .ring-2 {
 
             width: 82%;
+
             height: 82%;
 
             border-bottom-color:
@@ -494,6 +496,7 @@
         .mic-icon {
 
             width: 32px;
+
             height: 32px;
 
             fill: white;
@@ -532,7 +535,8 @@
             0%,
             100% {
 
-                transform: scale(1);
+                transform:
+                    scale(1);
             }
 
             50% {
@@ -563,9 +567,11 @@
 
             font-size: 0.72rem;
 
-            color: #c4b5fd;
+            color:
+                #c4b5fd;
 
-            letter-spacing: 0.02em;
+            letter-spacing:
+                0.02em;
         }
 
 
@@ -577,7 +583,8 @@
 
             min-height: 45px;
 
-            padding: 0.8rem 1rem;
+            padding:
+                0.8rem 1rem;
 
             border-radius: 12px;
 
@@ -588,21 +595,27 @@
                 1px solid
                 rgba(255, 255, 255, 0.07);
 
-            color: #d1d5db;
+            color:
+                #d1d5db;
 
             font-family:
                 "JetBrains Mono",
                 monospace;
 
-            font-size: 0.68rem;
+            font-size:
+                0.68rem;
 
-            line-height: 1.5;
+            line-height:
+                1.5;
 
-            text-align: center;
+            text-align:
+                center;
 
-            word-break: break-word;
+            word-break:
+                break-word;
 
-            margin-bottom: 1rem;
+            margin-bottom:
+                1rem;
         }
 
 
@@ -610,7 +623,7 @@
 
             content:
                 "Your voice command will appear here...";
-            
+
             color:
                 rgba(255, 255, 255, 0.3);
         }
@@ -708,12 +721,14 @@
 
         .commands-title {
 
-            text-align: center;
+            text-align:
+                center;
 
             color:
                 rgba(255, 255, 255, 0.45);
 
-            font-size: 0.62rem;
+            font-size:
+                0.62rem;
 
             text-transform:
                 uppercase;
@@ -728,17 +743,21 @@
 
         .commands {
 
-            display: flex;
+            display:
+                flex;
 
-            flex-direction: column;
+            flex-direction:
+                column;
 
-            gap: 6px;
+            gap:
+                6px;
         }
 
 
         .command-chip {
 
-            width: 100%;
+            width:
+                100%;
 
             border:
                 1px solid
@@ -753,7 +772,8 @@
             padding:
                 8px 10px;
 
-            border-radius: 9px;
+            border-radius:
+                9px;
 
             font-family:
                 "JetBrains Mono",
@@ -762,9 +782,11 @@
             font-size:
                 0.61rem;
 
-            text-align: center;
+            text-align:
+                center;
 
-            cursor: pointer;
+            cursor:
+                pointer;
 
             transition:
                 all 0.2s ease;
@@ -793,11 +815,14 @@
 
         .camera-error {
 
-            position: fixed;
+            position:
+                fixed;
 
-            bottom: 12px;
+            bottom:
+                12px;
 
-            left: 50%;
+            left:
+                50%;
 
             transform:
                 translateX(-50%);
@@ -825,7 +850,8 @@
             font-size:
                 0.55rem;
 
-            opacity: 0;
+            opacity:
+                0;
 
             pointer-events:
                 none;
@@ -837,7 +863,8 @@
 
         .camera-error.show {
 
-            opacity: 1;
+            opacity:
+                1;
         }
 
 
@@ -864,9 +891,6 @@
 
                 border-radius:
                     24px;
-
-                transform:
-                    translateY(20px);
             }
 
 
@@ -874,7 +898,8 @@
 
                 0% {
 
-                    opacity: 0;
+                    opacity:
+                        0;
 
                     transform:
                         translateY(50px)
@@ -883,7 +908,8 @@
 
                 100% {
 
-                    opacity: 1;
+                    opacity:
+                        1;
 
                     transform:
                         translateY(20px)
@@ -948,7 +974,7 @@
 
 
         /* =========================================================
-           VERY SMALL SCREENS
+           SMALL HEIGHT DEVICES
         ========================================================= */
 
         @media (max-height: 700px) {
@@ -1028,8 +1054,9 @@
     <div class="camera-glow"></div>
 
 
+
     <!-- =========================================================
-         MAIN CARD
+         MAIN NOVA CARD
     ========================================================= -->
 
     <main class="container">
@@ -1067,7 +1094,7 @@
 
 
         <!-- =====================================================
-             VISUALIZER
+             VISUALIZER + MIC
         ====================================================== -->
 
         <div class="visualizer-container">
@@ -1076,8 +1103,6 @@
 
             <div class="ring ring-2"></div>
 
-
-            <!-- MIC -->
 
             <button
                 id="micBtn"
@@ -1100,9 +1125,7 @@
 
 
 
-        <!-- =====================================================
-             STATUS
-        ====================================================== -->
+        <!-- STATUS -->
 
         <div class="status-box">
 
@@ -1116,9 +1139,7 @@
 
 
 
-        <!-- =====================================================
-             TRANSCRIPT
-        ====================================================== -->
+        <!-- TRANSCRIPT -->
 
         <div
             id="transcript"
@@ -1127,9 +1148,7 @@
 
 
 
-        <!-- =====================================================
-             WAVE
-        ====================================================== -->
+        <!-- WAVE -->
 
         <div
             id="wave"
@@ -1147,9 +1166,7 @@
 
 
 
-        <!-- =====================================================
-             EXAMPLE COMMANDS
-        ====================================================== -->
+        <!-- COMMAND EXAMPLES -->
 
         <div class="commands-title">
 
@@ -1190,7 +1207,6 @@
 
         </div>
 
-
     </main>
 
 
@@ -1206,10 +1222,6 @@
     </div>
 
 
-
-    <!-- =========================================================
-         JAVASCRIPT
-    ========================================================= -->
 
     <script>
 
@@ -1259,12 +1271,21 @@
                 }
 
 
+                /*
+                 * "environment" tells the browser that
+                 * we prefer the rear/back camera.
+                 *
+                 * This is especially useful on phones.
+                 */
+
                 cameraStream =
                     await navigator.mediaDevices.getUserMedia({
 
                         video: {
 
-                            facingMode: "user",
+                            facingMode: {
+                                ideal: "environment"
+                            },
 
                             width: {
                                 ideal: 1920
@@ -1359,33 +1380,34 @@
 
 
             /* =====================================================
-               START LISTENING
+               START
             ====================================================== */
 
-            recognition.onstart = function () {
+            recognition.onstart =
+                function () {
 
-                console.log(
-                    "Voice recognition started"
-                );
-
-
-                micBtn.classList.add(
-                    "listening"
-                );
+                    console.log(
+                        "Voice recognition started"
+                    );
 
 
-                wave.classList.add(
-                    "active"
-                );
+                    micBtn.classList.add(
+                        "listening"
+                    );
 
 
-                status.textContent =
-                    "Listening... Speak your command";
+                    wave.classList.add(
+                        "active"
+                    );
 
 
-                transcript.textContent =
-                    "";
-            };
+                    status.textContent =
+                        "Listening... Speak your command";
+
+
+                    transcript.textContent =
+                        "";
+                };
 
 
 
@@ -1509,7 +1531,7 @@
 
 
         /* =========================================================
-           MIC CLICK
+           MIC BUTTON
         ========================================================= */
 
         micBtn.addEventListener(
@@ -1578,18 +1600,21 @@
                         "/agent",
                         {
 
-                            method: "POST",
+                            method:
+                                "POST",
 
                             headers: {
+
                                 "Content-Type":
                                     "application/json"
                             },
 
-                            body: JSON.stringify({
+                            body:
+                                JSON.stringify({
 
-                                command:
-                                    commandText
-                            })
+                                    command:
+                                        commandText
+                                })
                         }
                     );
 
@@ -1621,11 +1646,6 @@
                         data.message ||
                         "Command executed successfully.";
 
-
-                    /*
-                     * Small delay makes the UI feel
-                     * smoother before opening the page.
-                     */
 
                     setTimeout(
                         function () {
@@ -1661,7 +1681,6 @@
 
                 status.textContent =
                     "Unable to connect to Nova AI backend.";
-
             }
 
         }
