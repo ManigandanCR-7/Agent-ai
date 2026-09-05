@@ -1,453 +1,1853 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Nova AI // Next-Gen Voice Agent</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+
     <style>
+
+        /* ==========================================
+           ROOT VARIABLES
+           ========================================== */
+
         :root {
+
             --bg: #030305;
-            --surface: rgba(18, 18, 26, 0.7);
+
+            --surface: rgba(18, 18, 26, 0.62);
+
             --surface-solid: #12121a;
-            --border: rgba(255, 255, 255, 0.08);
+
+            --border: rgba(255, 255, 255, 0.10);
+
             --border-glow: rgba(99, 102, 241, 0.4);
+
             --primary: #6366f1;
+
             --primary-glow: rgba(99, 102, 241, 0.6);
+
             --accent: #a855f7;
+
             --accent-glow: rgba(168, 85, 247, 0.6);
+
             --text-main: #f8fafc;
+
             --text-muted: #94a3b8;
+
             --success: #10b981;
         }
 
+
+        /* ==========================================
+           GLOBAL RESET
+           ========================================== */
+
         * {
+
             box-sizing: border-box;
+
             margin: 0;
+
             padding: 0;
+
             user-select: none;
         }
 
+
+        /* ==========================================
+           BODY
+           ========================================== */
+
         body {
+
             background-color: var(--bg);
+
             color: var(--text-main);
+
             font-family: 'Plus Jakarta Sans', sans-serif;
+
             min-height: 100vh;
+
             overflow-x: hidden;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             position: relative;
+
+            padding: 20px;
         }
 
-        .mesh-gradient {
+
+        /* ==========================================
+           CAMERA BACKGROUND
+           ========================================== */
+
+        #cameraBackground {
+
             position: fixed;
-            top: 0;
-            left: 0;
+
+            inset: 0;
+
             width: 100vw;
+
             height: 100vh;
+
+            object-fit: cover;
+
+            background: #030305;
+
+            z-index: -3;
+
+            transform: scaleX(-1);
+        }
+
+
+        /* ==========================================
+           CAMERA DARK OVERLAY
+           ========================================== */
+
+        .camera-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+
+                linear-gradient(
+
+                    rgba(3, 3, 5, 0.48),
+
+                    rgba(3, 3, 5, 0.72)
+
+                );
+
+            backdrop-filter: blur(2px);
+
+            -webkit-backdrop-filter: blur(2px);
+
+            z-index: -2;
+
             pointer-events: none;
+        }
+
+
+        /* ==========================================
+           SUBTLE CAMERA GLOW
+           ========================================== */
+
+        .camera-glow {
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
             z-index: -1;
-            filter: blur(120px);
-            opacity: 0.4;
+
+            background:
+
+                radial-gradient(
+
+                    circle at center,
+
+                    rgba(99, 102, 241, 0.08),
+
+                    transparent 55%
+
+                );
         }
 
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            will-change: transform;
-            animation: floatBlob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
 
-        .blob-1 {
-            width: 50vw;
-            height: 50vw;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            top: -20%;
-            left: -10%;
-        }
-
-        .blob-2 {
-            width: 45vw;
-            height: 45vw;
-            background: linear-gradient(135deg, #3b82f6, #ec4899);
-            bottom: -20%;
-            right: -10%;
-            animation-delay: -5s;
-        }
-
-        @keyframes floatBlob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            50% { transform: translate(50px, 80px) scale(1.1); }
-            100% { transform: translate(-40px, 50px) scale(0.95); }
-        }
+        /* ==========================================
+           MAIN CONTAINER
+           ========================================== */
 
         .container {
+
             width: 100%;
+
             max-width: 520px;
+
             padding: 2.5rem;
+
             background: var(--surface);
+
             backdrop-filter: blur(25px);
+
             -webkit-backdrop-filter: blur(25px);
+
             border: 1px solid var(--border);
+
             border-radius: 32px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+            box-shadow:
+
+                0 30px 60px rgba(0, 0, 0, 0.55),
+
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
             position: relative;
+
             z-index: 10;
-            animation: containerEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+            animation:
+
+                containerEntrance
+
+                1.2s
+
+                cubic-bezier(0.16, 1, 0.3, 1)
+
+                forwards;
         }
+
 
         @keyframes containerEntrance {
-            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+
+                    translateY(40px)
+
+                    scale(0.95);
+            }
+
+            100% {
+
+                opacity: 1;
+
+                transform:
+
+                    translateY(0)
+
+                    scale(1);
+            }
         }
 
+
+        /* ==========================================
+           HEADER
+           ========================================== */
+
         .header {
+
             text-align: center;
+
             margin-bottom: 2.5rem;
         }
 
+
+        /* ==========================================
+           STATUS BADGE
+           ========================================== */
+
         .badge {
+
             display: inline-flex;
+
             align-items: center;
+
             gap: 8px;
+
             padding: 6px 14px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.25);
+
+            background: rgba(99, 102, 241, 0.12);
+
+            border: 1px solid rgba(99, 102, 241, 0.30);
+
             border-radius: 100px;
+
             font-size: 0.75rem;
+
             font-weight: 600;
-            color: #818cf8;
+
+            color: #a5b4fc;
+
             text-transform: uppercase;
+
             letter-spacing: 1.5px;
+
             margin-bottom: 1rem;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
-            animation: pulseBadge 3s infinite ease-in-out;
+
+            box-shadow:
+
+                0 0 20px
+
+                rgba(99, 102, 241, 0.15);
+
+            animation:
+
+                pulseBadge
+
+                3s
+
+                infinite
+
+                ease-in-out;
         }
+
 
         @keyframes pulseBadge {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(99, 102, 241, 0.15); }
-            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(99, 102, 241, 0.35); }
+
+            0%,
+            100% {
+
+                transform: scale(1);
+
+                box-shadow:
+
+                    0 0 15px
+
+                    rgba(99, 102, 241, 0.15);
+            }
+
+            50% {
+
+                transform: scale(1.03);
+
+                box-shadow:
+
+                    0 0 25px
+
+                    rgba(99, 102, 241, 0.35);
+            }
         }
+
+
+        /* ==========================================
+           STATUS DOT
+           ========================================== */
 
         .dot {
+
             width: 6px;
+
             height: 6px;
+
             background-color: #818cf8;
+
             border-radius: 50%;
-            box-shadow: 0 0 8px #818cf8;
-            animation: blinkDot 1.5s infinite;
+
+            box-shadow:
+
+                0 0 8px #818cf8;
+
+            animation:
+
+                blinkDot
+
+                1.5s
+
+                infinite;
         }
+
 
         @keyframes blinkDot {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+
+            0%,
+            100% {
+
+                opacity: 0.3;
+            }
+
+            50% {
+
+                opacity: 1;
+            }
         }
 
+
+        /* ==========================================
+           TITLE
+           ========================================== */
+
         h1 {
+
             font-size: 2.25rem;
+
             font-weight: 800;
+
             letter-spacing: -0.03em;
-            background: linear-gradient(to right, #fff, #94a3b8);
+
+            background:
+
+                linear-gradient(
+
+                    to right,
+
+                    #ffffff,
+
+                    #cbd5e1
+                );
+
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
+
             margin-bottom: 0.5rem;
         }
 
+
+        /* ==========================================
+           SUBTITLE
+           ========================================== */
+
         .subtitle {
+
             color: var(--text-muted);
+
             font-size: 0.95rem;
+
             font-weight: 400;
         }
 
+
+        /* ==========================================
+           VISUALIZER
+           ========================================== */
+
         .visualizer-container {
+
             position: relative;
+
             width: 180px;
+
             height: 180px;
-            margin: 0 auto 2.5rem auto;
+
+            margin:
+
+                0 auto
+
+                2.5rem auto;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
         }
+
+
+        /* ==========================================
+           OUTER RING
+           ========================================== */
 
         .ring {
+
             position: absolute;
+
             inset: 0;
+
             border-radius: 50%;
-            border: 2px dashed rgba(99, 102, 241, 0.3);
-            animation: rotateRing 25s linear infinite;
+
+            border:
+
+                2px dashed
+
+                rgba(99, 102, 241, 0.35);
+
+            animation:
+
+                rotateRing
+
+                25s
+
+                linear
+
+                infinite;
         }
+
+
+        /* ==========================================
+           SECOND RING
+           ========================================== */
 
         .ring-2 {
+
             inset: -15px;
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            animation: rotateRingRev 30s linear infinite;
+
+            border:
+
+                1px solid
+
+                rgba(168, 85, 247, 0.25);
+
+            animation:
+
+                rotateRingRev
+
+                30s
+
+                linear
+
+                infinite;
         }
+
 
         @keyframes rotateRing {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+            0% {
+
+                transform:
+
+                    rotate(0deg);
+            }
+
+            100% {
+
+                transform:
+
+                    rotate(360deg);
+            }
         }
+
 
         @keyframes rotateRingRev {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(-360deg); }
+
+            0% {
+
+                transform:
+
+                    rotate(0deg);
+            }
+
+            100% {
+
+                transform:
+
+                    rotate(-360deg);
+            }
         }
 
+
+        /* ==========================================
+           MICROPHONE BUTTON
+           ========================================== */
+
         .mic-btn {
+
             position: relative;
+
             width: 110px;
+
             height: 110px;
+
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+
+            background:
+
+                linear-gradient(
+
+                    135deg,
+
+                    var(--primary),
+
+                    var(--accent)
+
+                );
+
             border: none;
+
             outline: none;
+
             cursor: pointer;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+            box-shadow:
+
+                0 10px 30px
+
+                var(--primary-glow);
+
+            transition:
+
+                all
+
+                0.4s
+
+                cubic-bezier(
+
+                    0.175,
+
+                    0.885,
+
+                    0.32,
+
+                    1.275
+
+                );
+
             z-index: 5;
         }
 
+
         .mic-btn:hover {
+
             transform: scale(1.08);
-            box-shadow: 0 15px 40px var(--accent-glow);
+
+            box-shadow:
+
+                0 15px 40px
+
+                var(--accent-glow);
         }
 
+
         .mic-btn:active {
+
             transform: scale(0.95);
         }
 
+
+        /* ==========================================
+           LISTENING STATE
+           ========================================== */
+
         .mic-btn.listening {
-            animation: pulseMic 1.5s infinite;
-            background: linear-gradient(135deg, #ef4444, #f43f5e);
-            box-shadow: 0 0 50px rgba(239, 68, 68, 0.6);
+
+            animation:
+
+                pulseMic
+
+                1.5s
+
+                infinite;
+
+            background:
+
+                linear-gradient(
+
+                    135deg,
+
+                    #ef4444,
+
+                    #f43f5e
+
+                );
+
+            box-shadow:
+
+                0 0 50px
+
+                rgba(239, 68, 68, 0.6);
         }
+
 
         @keyframes pulseMic {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 25px rgba(239, 68, 68, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+
+            0% {
+
+                transform: scale(1);
+
+                box-shadow:
+
+                    0 0 0 0
+
+                    rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+
+                transform: scale(1.05);
+
+                box-shadow:
+
+                    0 0 0 25px
+
+                    rgba(239, 68, 68, 0);
+            }
+
+            100% {
+
+                transform: scale(1);
+
+                box-shadow:
+
+                    0 0 0 0
+
+                    rgba(239, 68, 68, 0);
+            }
         }
+
+
+        /* ==========================================
+           MIC ICON
+           ========================================== */
 
         .mic-btn svg {
+
             width: 38px;
+
             height: 38px;
+
             fill: #ffffff;
-            transition: transform 0.3s ease;
+
+            transition:
+
+                transform
+
+                0.3s ease;
         }
 
+
         .mic-btn:hover svg {
+
             transform: scale(1.1);
         }
 
+
+        /* ==========================================
+           STATUS BOX
+           ========================================== */
+
         .status-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
+
+            background:
+
+                rgba(255, 255, 255, 0.045);
+
+            border:
+
+                1px solid
+
+                var(--border);
+
             border-radius: 20px;
+
             padding: 1.5rem;
+
             text-align: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+
+            backdrop-filter: blur(15px);
+
+            -webkit-backdrop-filter: blur(15px);
+
+            transition:
+
+                all
+
+                0.3s ease;
         }
 
+
+        /* ==========================================
+           STATUS TEXT
+           ========================================== */
+
         .status-text {
+
             font-size: 0.85rem;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
+
             color: var(--text-muted);
+
             margin-bottom: 0.5rem;
+
             font-weight: 600;
         }
 
+
+        /* ==========================================
+           TRANSCRIPT
+           ========================================== */
+
         .transcript {
-            font-family: 'JetBrains Mono', monospace;
+
+            font-family:
+
+                'JetBrains Mono',
+
+                monospace;
+
             font-size: 1.05rem;
+
             color: var(--text-main);
+
             min-height: 1.5rem;
+
             word-break: break-word;
         }
 
+
+        /* ==========================================
+           AUDIO WAVE
+           ========================================== */
+
         .wave-bars {
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             gap: 4px;
+
             height: 24px;
+
             margin-top: 1rem;
+
             opacity: 0;
-            transition: opacity 0.3s ease;
+
+            transition:
+
+                opacity
+
+                0.3s ease;
         }
 
+
         .wave-bars.active {
+
             opacity: 1;
         }
 
+
         .bar {
+
             width: 4px;
+
             height: 100%;
-            background: linear-gradient(to top, var(--primary), var(--accent));
+
+            background:
+
+                linear-gradient(
+
+                    to top,
+
+                    var(--primary),
+
+                    var(--accent)
+
+                );
+
             border-radius: 4px;
-            animation: soundWave 1.2s infinite ease-in-out;
+
+            animation:
+
+                soundWave
+
+                1.2s
+
+                infinite
+
+                ease-in-out;
         }
 
-        .bar:nth-child(2) { animation-delay: 0.1s; }
-        .bar:nth-child(3) { animation-delay: 0.2s; }
-        .bar:nth-child(4) { animation-delay: 0.3s; }
-        .bar:nth-child(5) { animation-delay: 0.4s; }
+
+        .bar:nth-child(2) {
+
+            animation-delay: 0.1s;
+        }
+
+
+        .bar:nth-child(3) {
+
+            animation-delay: 0.2s;
+        }
+
+
+        .bar:nth-child(4) {
+
+            animation-delay: 0.3s;
+        }
+
+
+        .bar:nth-child(5) {
+
+            animation-delay: 0.4s;
+        }
+
 
         @keyframes soundWave {
-            0%, 100% { transform: scaleY(0.2); }
-            50% { transform: scaleY(1); }
+
+            0%,
+            100% {
+
+                transform:
+
+                    scaleY(0.2);
+            }
+
+            50% {
+
+                transform:
+
+                    scaleY(1);
+            }
         }
 
+
+        /* ==========================================
+           COMMAND HINTS
+           ========================================== */
+
         .commands-hint {
+
             margin-top: 2rem;
+
             display: flex;
+
             justify-content: center;
+
             gap: 10px;
+
             flex-wrap: wrap;
         }
 
+
+        /* ==========================================
+           COMMAND CHIP
+           ========================================== */
+
         .chip {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            padding: 6px 12px;
+
+            background:
+
+                rgba(255, 255, 255, 0.045);
+
+            border:
+
+                1px solid
+
+                var(--border);
+
+            padding:
+
+                6px 12px;
+
             border-radius: 100px;
+
             font-size: 0.75rem;
+
             color: var(--text-muted);
-            transition: all 0.2s ease;
+
+            transition:
+
+                all
+
+                0.2s ease;
+
+            backdrop-filter: blur(10px);
+
+            -webkit-backdrop-filter: blur(10px);
         }
+
 
         .chip:hover {
-            border-color: rgba(99, 102, 241, 0.5);
-            color: var(--text-main);
-            background: rgba(99, 102, 241, 0.1);
+
+            border-color:
+
+                rgba(99, 102, 241, 0.5);
+
+            color:
+
+                var(--text-main);
+
+            background:
+
+                rgba(99, 102, 241, 0.1);
         }
+
+
+        /* ==========================================
+           CAMERA ERROR MESSAGE
+           ========================================== */
+
+        .camera-status {
+
+            position: fixed;
+
+            bottom: 15px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 0.7rem;
+
+            color: rgba(255,255,255,0.5);
+
+            background:
+
+                rgba(0,0,0,0.35);
+
+            padding:
+
+                6px 12px;
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(10px);
+
+            z-index: 20;
+
+            display: none;
+        }
+
+
+        /* ==========================================
+           MOBILE RESPONSIVE
+           ========================================== */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 15px;
+            }
+
+
+            .container {
+
+                padding: 2rem 1.5rem;
+
+                border-radius: 26px;
+            }
+
+
+            h1 {
+
+                font-size: 1.8rem;
+            }
+
+
+            .subtitle {
+
+                font-size: 0.85rem;
+            }
+
+
+            .visualizer-container {
+
+                width: 160px;
+
+                height: 160px;
+            }
+
+
+            .mic-btn {
+
+                width: 95px;
+
+                height: 95px;
+            }
+
+
+            .mic-btn svg {
+
+                width: 32px;
+
+                height: 32px;
+            }
+
+
+            .chip {
+
+                font-size: 0.68rem;
+            }
+        }
+
     </style>
+
 </head>
+
+
 <body>
 
-    <div class="mesh-gradient">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
+
+    <!-- ==========================================
+         LIVE CAMERA BACKGROUND
+         ========================================== -->
+
+    <video
+
+        id="cameraBackground"
+
+        autoplay
+
+        playsinline
+
+        muted>
+
+    </video>
+
+
+    <!-- ==========================================
+         CAMERA OVERLAY
+         ========================================== -->
+
+    <div class="camera-overlay"></div>
+
+
+    <!-- ==========================================
+         CENTER GLOW
+         ========================================== -->
+
+    <div class="camera-glow"></div>
+
+
+    <!-- ==========================================
+         MAIN APPLICATION
+         ========================================== -->
 
     <div class="container">
+
+
+        <!-- HEADER -->
+
         <div class="header">
+
+
             <div class="badge">
+
                 <div class="dot"></div>
+
                 Neural Core Online
+
             </div>
-            <h1>Nova Voice Agent</h1>
-            <p class="subtitle">Tap the microphone and speak your command naturally</p>
+
+
+            <h1>
+
+                Nova Voice Agent
+
+            </h1>
+
+
+            <p class="subtitle">
+
+                Tap the microphone and speak your command naturally
+
+            </p>
+
+
         </div>
+
+
+        <!-- ======================================
+             VOICE VISUALIZER
+             ====================================== -->
 
         <div class="visualizer-container">
+
+
             <div class="ring"></div>
+
+
             <div class="ring ring-2"></div>
-            <button id="micBtn" class="mic-btn" title="Click to speak">
+
+
+            <button
+
+                id="micBtn"
+
+                class="mic-btn"
+
+                title="Click to speak">
+
+
                 <svg viewBox="0 0 24 24">
-                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.39-.9.89 0 2.72-2.25 4.97-4.97 4.97s-4.97-2.25-4.97-4.97c0-.5-.41-.89-.9-.89s-.9.39-.9.89c0 3.19 2.45 5.82 5.56 6.22V21h2v-2.89c3.11-.4 5.56-3.03 5.56-6.22 0-.5-.4- .89-.89-.89z"/>
+
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.39-.9.89 0 2.72-2.25 4.97-4.97 4.97s-4.97-2.25-4.97-4.97c0-.5-.41-.89-.9-.89s-.9.39-.9.89c0 3.19 2.45 5.82 5.56 6.22V21h2v-2.89c3.11-.4 5.56-3.03 5.56-6.22 0-.5-.4-.89-.89-.89z"/>
+
                 </svg>
+
+
             </button>
+
+
         </div>
+
+
+        <!-- ======================================
+             STATUS
+             ====================================== -->
 
         <div class="status-box">
-            <div id="statusText" class="status-text">Ready for input</div>
-            <div id="transcript" class="transcript">"Tap mic to initialize"</div>
-            <div id="waveBars" class="wave-bars">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+
+
+            <div
+
+                id="statusText"
+
+                class="status-text">
+
+                Ready for input
+
             </div>
+
+
+            <div
+
+                id="transcript"
+
+                class="transcript">
+
+                "Tap mic to initialize"
+
+            </div>
+
+
+            <!-- AUDIO WAVE -->
+
+            <div
+
+                id="waveBars"
+
+                class="wave-bars">
+
+
+                <div class="bar"></div>
+
+                <div class="bar"></div>
+
+                <div class="bar"></div>
+
+                <div class="bar"></div>
+
+                <div class="bar"></div>
+
+
+            </div>
+
+
         </div>
+
+
+        <!-- ======================================
+             COMMAND EXAMPLES
+             ====================================== -->
 
         <div class="commands-hint">
-            <div class="chip">"Open YouTube and play Karuppu song"</div>
-            <div class="chip">"Email john at gmail.com type hello"</div>
-            <div class="chip">"Open Google"</div>
+
+
+            <div class="chip">
+
+                "Open YouTube and play Karuppu song"
+
+            </div>
+
+
+            <div class="chip">
+
+                "Email john at gmail.com type hello"
+
+            </div>
+
+
+            <div class="chip">
+
+                "Open Google"
+
+            </div>
+
+
         </div>
+
+
     </div>
 
-    <script>
-        const micBtn = document.getElementById('micBtn');
-        const statusText = document.getElementById('statusText');
-        const transcript = document.getElementById('transcript');
-        const waveBars = document.getElementById('waveBars');
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    <!-- ==========================================
+         CAMERA STATUS
+         ========================================== -->
+
+    <div
+
+        id="cameraStatus"
+
+        class="camera-status">
+
+        Camera unavailable
+
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+
+    <script>
+
+
+        /* ==========================================
+           CAMERA BACKGROUND
+           ========================================== */
+
+        const cameraBackground =
+
+            document.getElementById(
+
+                'cameraBackground'
+
+            );
+
+
+        const cameraStatus =
+
+            document.getElementById(
+
+                'cameraStatus'
+
+            );
+
+
+        async function startCamera() {
+
+
+            try {
+
+
+                if (
+
+                    !navigator.mediaDevices ||
+
+                    !navigator.mediaDevices.getUserMedia
+
+                ) {
+
+                    throw new Error(
+
+                        "Camera API not supported"
+
+                    );
+
+                }
+
+
+                const stream =
+
+                    await navigator.mediaDevices.getUserMedia({
+
+                        video: {
+
+                            facingMode: "user",
+
+                            width: {
+
+                                ideal: 1920
+
+                            },
+
+                            height: {
+
+                                ideal: 1080
+
+                            }
+
+                        },
+
+                        audio: false
+
+                    });
+
+
+                cameraBackground.srcObject = stream;
+
+
+                console.log(
+
+                    "Camera started successfully"
+
+                );
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(
+
+                    "Camera access failed:",
+
+                    error
+
+                );
+
+
+                cameraBackground.style.display =
+
+                    "none";
+
+
+                cameraStatus.style.display =
+
+                    "block";
+
+
+                cameraStatus.innerText =
+
+                    "Camera access unavailable";
+            }
+
+        }
+
+
+        /* Start camera */
+
+        startCamera();
+
+
+
+        /* ==========================================
+           VOICE AGENT ELEMENTS
+           ========================================== */
+
+        const micBtn =
+
+            document.getElementById(
+
+                'micBtn'
+
+            );
+
+
+        const statusText =
+
+            document.getElementById(
+
+                'statusText'
+
+            );
+
+
+        const transcript =
+
+            document.getElementById(
+
+                'transcript'
+
+            );
+
+
+        const waveBars =
+
+            document.getElementById(
+
+                'waveBars'
+
+            );
+
+
+
+        /* ==========================================
+           SPEECH RECOGNITION
+           ========================================== */
+
+        const SpeechRecognition =
+
+            window.SpeechRecognition ||
+
+            window.webkitSpeechRecognition;
+
+
 
         if (!SpeechRecognition) {
-            statusText.innerText = "Speech API Not Supported";
-            transcript.innerText = "Please use Google Chrome or Edge";
-        } else {
-            const recognition = new SpeechRecognition();
+
+
+            statusText.innerText =
+
+                "Speech API Not Supported";
+
+
+            transcript.innerText =
+
+                "Please use Google Chrome or Edge";
+
+
+        }
+
+        else {
+
+
+            const recognition =
+
+                new SpeechRecognition();
+
+
             recognition.continuous = false;
+
+
             recognition.interimResults = false;
+
+
             recognition.lang = 'en-US';
 
-            micBtn.addEventListener('click', () => {
-                try {
-                    recognition.start();
-                } catch(e) {
-                    console.log("Recognition already active");
+
+
+            /* ======================================
+               MIC BUTTON
+               ====================================== */
+
+            micBtn.addEventListener(
+
+                'click',
+
+                () => {
+
+
+                    try {
+
+
+                        recognition.start();
+
+
+                    }
+
+                    catch (e) {
+
+
+                        console.log(
+
+                            "Recognition already active"
+
+                        );
+
+                    }
+
                 }
-            });
+
+            );
+
+
+
+            /* ======================================
+               RECOGNITION START
+               ====================================== */
 
             recognition.onstart = () => {
-                micBtn.classList.add('listening');
-                statusText.innerText = "Listening to your voice...";
-                transcript.innerText = "...";
-                waveBars.classList.add('active');
+
+
+                micBtn.classList.add(
+
+                    'listening'
+
+                );
+
+
+                statusText.innerText =
+
+                    "Listening to your voice...";
+
+
+                transcript.innerText =
+
+                    "...";
+
+
+                waveBars.classList.add(
+
+                    'active'
+
+                );
+
+
             };
 
-            recognition.onresult = async (event) => {
-                const commandText = event.results[0][0].transcript;
-                transcript.innerText = `"${commandText}"`;
-                statusText.innerText = "Processing Neural Command...";
-                waveBars.classList.remove('active');
 
-                try {
-                    const response = await fetch('/agent', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ command: commandText })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success && data.url) {
-                        statusText.innerText = data.message || "Executing Action...";
-                        setTimeout(() => {
-                            window.open(data.url, '_blank');
-                        }, 600);
-                    } else {
-                        statusText.innerText = "Command Unknown / Failed";
+
+            /* ======================================
+               RECOGNITION RESULT
+               ====================================== */
+
+            recognition.onresult =
+
+                async (event) => {
+
+
+                    const commandText =
+
+                        event.results[0][0].transcript;
+
+
+                    transcript.innerText =
+
+                        `"${commandText}"`;
+
+
+                    statusText.innerText =
+
+                        "Processing Neural Command...";
+
+
+                    waveBars.classList.remove(
+
+                        'active'
+
+                    );
+
+
+
+                    try {
+
+
+                        const response =
+
+                            await fetch(
+
+                                '/agent',
+
+                                {
+
+                                    method: 'POST',
+
+                                    headers: {
+
+                                        'Content-Type':
+
+                                            'application/json'
+
+                                    },
+
+                                    body:
+
+                                        JSON.stringify({
+
+                                            command:
+
+                                                commandText
+
+                                        })
+
+                                }
+
+                            );
+
+
+
+                        const data =
+
+                            await response.json();
+
+
+
+                        if (
+
+                            data.success &&
+
+                            data.url
+
+                        ) {
+
+
+                            statusText.innerText =
+
+                                data.message ||
+
+                                "Executing Action...";
+
+
+                            setTimeout(
+
+                                () => {
+
+
+                                    window.open(
+
+                                        data.url,
+
+                                        '_blank'
+
+                                    );
+
+
+                                },
+
+                                600
+
+                            );
+
+
+                        }
+
+                        else {
+
+
+                            statusText.innerText =
+
+                                "Command Unknown / Failed";
+
+
+                        }
+
+
                     }
-                } catch (err) {
-                    statusText.innerText = "Connection Error";
-                }
-            };
 
-            recognition.onerror = () => {
-                statusText.innerText = "Error Occurred. Try Again.";
-                micBtn.classList.remove('listening');
-                waveBars.classList.remove('active');
-            };
+                    catch (err) {
+
+
+                        console.error(
+
+                            "Agent error:",
+
+                            err
+
+                        );
+
+
+                        statusText.innerText =
+
+                            "Connection Error";
+
+
+                    }
+
+
+                };
+
+
+
+            /* ======================================
+               RECOGNITION ERROR
+               ====================================== */
+
+            recognition.onerror =
+
+                (event) => {
+
+
+                    console.error(
+
+                        "Speech recognition error:",
+
+                        event.error
+
+                    );
+
+
+                    statusText.innerText =
+
+                        "Error Occurred. Try Again.";
+
+
+                    micBtn.classList.remove(
+
+                        'listening'
+
+                    );
+
+
+                    waveBars.classList.remove(
+
+                        'active'
+
+                    );
+
+
+                };
+
+
+
+            /* ======================================
+               RECOGNITION END
+               ====================================== */
 
             recognition.onend = () => {
-                micBtn.classList.remove('listening');
-                waveBars.classList.remove('active');
-                if (statusText.innerText === "Listening to your voice...") {
-                    statusText.innerText = "Ready for input";
+
+
+                micBtn.classList.remove(
+
+                    'listening'
+
+                );
+
+
+                waveBars.classList.remove(
+
+                    'active'
+
+                );
+
+
+                if (
+
+                    statusText.innerText ===
+
+                    "Listening to your voice..."
+
+                ) {
+
+
+                    statusText.innerText =
+
+                        "Ready for input";
+
                 }
+
+
             };
+
+
         }
+
+
+        /* ==========================================
+           CLEAN CAMERA STREAM WHEN PAGE CLOSES
+           ========================================== */
+
+        window.addEventListener(
+
+            'beforeunload',
+
+            () => {
+
+
+                const stream =
+
+                    cameraBackground.srcObject;
+
+
+                if (stream) {
+
+
+                    stream
+
+                        .getTracks()
+
+                        .forEach(
+
+                            track => track.stop()
+
+                        );
+
+                }
+
+            }
+
+        );
+
+
     </script>
+
+
 </body>
+
 </html>
