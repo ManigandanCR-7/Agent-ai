@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Nova AI // Next-Gen Voice Agent</title>
 
@@ -12,6 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
+
     <style>
 
         /* ==========================================
@@ -19,19 +22,24 @@
         ========================================== */
 
         :root {
+
             --bg: #030305;
+
             --surface: rgba(18, 18, 26, 0.68);
 
             --primary: #7c3aed;
+
             --primary-light: #a78bfa;
 
             --secondary: #4f46e5;
 
             --text: #ffffff;
+
             --text-muted: #a1a1aa;
 
             --border: rgba(255, 255, 255, 0.12);
         }
+
 
 
         /* ==========================================
@@ -39,10 +47,14 @@
         ========================================== */
 
         * {
+
             margin: 0;
+
             padding: 0;
+
             box-sizing: border-box;
         }
+
 
 
         /* ==========================================
@@ -50,17 +62,22 @@
         ========================================== */
 
         body {
+
             min-height: 100vh;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             padding: 1rem;
 
             background: var(--bg);
 
-            font-family: "Plus Jakarta Sans", sans-serif;
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
 
             color: var(--text);
 
@@ -70,16 +87,19 @@
         }
 
 
+
         /* ==========================================
            CAMERA BACKGROUND
         ========================================== */
 
         #cameraBackground {
+
             position: fixed;
 
             inset: 0;
 
             width: 100%;
+
             height: 100%;
 
             object-fit: cover;
@@ -90,11 +110,13 @@
         }
 
 
+
         /* ==========================================
            CAMERA OVERLAY
         ========================================== */
 
         .camera-overlay {
+
             position: fixed;
 
             inset: 0;
@@ -113,11 +135,13 @@
         }
 
 
+
         /* ==========================================
            CAMERA GLOW
         ========================================== */
 
         .camera-glow {
+
             position: fixed;
 
             inset: 0;
@@ -136,6 +160,7 @@
         }
 
 
+
         /* ==========================================
            MAIN CARD
         ========================================== */
@@ -148,12 +173,15 @@
 
             padding: 1.35rem 1.6rem;
 
-            background: rgba(18, 18, 26, 0.68);
+            background:
+                rgba(18, 18, 26, 0.68);
 
             backdrop-filter: blur(22px);
+
             -webkit-backdrop-filter: blur(22px);
 
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border:
+                1px solid rgba(255, 255, 255, 0.12);
 
             border-radius: 24px;
 
@@ -167,21 +195,52 @@
 
             opacity: 0;
 
+            cursor: grab;
+
+            touch-action: none;
+
+            user-select: none;
+
             animation:
                 containerEntrance
                 1.2s
-                cubic-bezier(0.16, 1, 0.3, 1)
+                cubic-bezier(
+                    0.16,
+                    1,
+                    0.3,
+                    1
+                )
                 forwards;
         }
 
 
+
         /* ==========================================
-           CARD ENTRANCE
+           DRAGGING STATE
+        ========================================== */
+
+        .container.dragging {
+
+            cursor: grabbing;
+
+            transition: none;
+
+            box-shadow:
+                0 25px 55px rgba(0, 0, 0, 0.65),
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.15);
+        }
+
+
+
+        /* ==========================================
+           ENTRANCE ANIMATION
         ========================================== */
 
         @keyframes containerEntrance {
 
             0% {
+
                 opacity: 0;
 
                 transform:
@@ -190,13 +249,15 @@
             }
 
             100% {
+
                 opacity: 1;
 
                 transform:
-                    translateY(25px)
+                    translateY(0)
                     scale(1);
             }
         }
+
 
 
         /* ==========================================
@@ -209,6 +270,7 @@
 
             margin-bottom: 1rem;
         }
+
 
 
         /* ==========================================
@@ -229,11 +291,16 @@
 
             border-radius: 999px;
 
-            background: rgba(255, 255, 255, 0.06);
+            background:
+                rgba(255, 255, 255, 0.06);
 
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.1);
 
-            font-family: "JetBrains Mono", monospace;
+            font-family:
+                "JetBrains Mono",
+                monospace;
 
             font-size: 0.58rem;
 
@@ -243,9 +310,11 @@
         }
 
 
+
         .status-dot {
 
             width: 6px;
+
             height: 6px;
 
             border-radius: 50%;
@@ -255,21 +324,26 @@
             box-shadow:
                 0 0 10px #22c55e;
 
-            animation: statusPulse 2s infinite;
+            animation:
+                statusPulse 2s infinite;
         }
+
 
 
         @keyframes statusPulse {
 
             0%,
             100% {
+
                 opacity: 1;
             }
 
             50% {
+
                 opacity: 0.4;
             }
         }
+
 
 
         /* ==========================================
@@ -301,13 +375,16 @@
         }
 
 
+
         /* ==========================================
            SUBTITLE
         ========================================== */
 
         .subtitle {
 
-            font-family: "JetBrains Mono", monospace;
+            font-family:
+                "JetBrains Mono",
+                monospace;
 
             font-size: 0.68rem;
 
@@ -315,6 +392,7 @@
 
             color: var(--text-muted);
         }
+
 
 
         /* ==========================================
@@ -326,19 +404,23 @@
             position: relative;
 
             width: 125px;
+
             height: 125px;
 
-            margin: 0 auto 1rem auto;
+            margin:
+                0 auto 1rem auto;
 
             display: flex;
 
             align-items: center;
+
             justify-content: center;
         }
 
 
+
         /* ==========================================
-           OUTER RING
+           RINGS
         ========================================== */
 
         .ring {
@@ -347,54 +429,74 @@
 
             border-radius: 50%;
 
-            border: 1px solid rgba(167, 139, 250, 0.25);
+            border:
+                1px solid
+                rgba(167, 139, 250, 0.25);
         }
+
 
 
         .ring-1 {
 
             width: 100%;
+
             height: 100%;
 
             animation:
-                rotateRing 12s linear infinite;
+                rotateRing
+                12s
+                linear
+                infinite;
         }
+
 
 
         .ring-2 {
 
             width: 80%;
+
             height: 80%;
 
-            border-color: rgba(124, 58, 237, 0.35);
+            border-color:
+                rgba(124, 58, 237, 0.35);
 
             animation:
-                rotateRingReverse 9s linear infinite;
+                rotateRingReverse
+                9s
+                linear
+                infinite;
         }
+
 
 
         @keyframes rotateRing {
 
             from {
+
                 transform: rotate(0deg);
             }
 
             to {
+
                 transform: rotate(360deg);
             }
         }
+
 
 
         @keyframes rotateRingReverse {
 
             from {
+
                 transform: rotate(360deg);
             }
 
             to {
+
                 transform: rotate(0deg);
             }
         }
+
 
 
         /* ==========================================
@@ -404,6 +506,7 @@
         .mic-btn {
 
             width: 76px;
+
             height: 76px;
 
             border-radius: 50%;
@@ -415,6 +518,7 @@
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             position: relative;
@@ -429,7 +533,8 @@
                 );
 
             box-shadow:
-                0 10px 30px rgba(79, 70, 229, 0.4);
+                0 10px 30px
+                rgba(79, 70, 229, 0.4);
 
             transition:
                 transform 0.25s ease,
@@ -437,13 +542,16 @@
         }
 
 
+
         .mic-btn:hover {
 
             transform: scale(1.06);
 
             box-shadow:
-                0 15px 40px rgba(79, 70, 229, 0.55);
+                0 15px 40px
+                rgba(79, 70, 229, 0.55);
         }
+
 
 
         .mic-btn:active {
@@ -452,8 +560,9 @@
         }
 
 
+
         /* ==========================================
-           MIC LISTENING
+           LISTENING
         ========================================== */
 
         .mic-btn.listening {
@@ -466,30 +575,41 @@
                 );
 
             box-shadow:
-                0 0 0 0 rgba(239, 68, 68, 0.5);
+                0 0 0
+                rgba(239, 68, 68, 0.5);
 
             animation:
-                micPulse 1.5s infinite;
+                micPulse
+                1.5s
+                infinite;
         }
+
 
 
         @keyframes micPulse {
 
             0% {
+
                 box-shadow:
-                    0 0 0 0 rgba(239, 68, 68, 0.55);
+                    0 0 0 0
+                    rgba(239, 68, 68, 0.55);
             }
 
             70% {
+
                 box-shadow:
-                    0 0 0 20px rgba(239, 68, 68, 0);
+                    0 0 0 20px
+                    rgba(239, 68, 68, 0);
             }
 
             100% {
+
                 box-shadow:
-                    0 0 0 0 rgba(239, 68, 68, 0);
+                    0 0 0 0
+                    rgba(239, 68, 68, 0);
             }
         }
+
 
 
         /* ==========================================
@@ -499,14 +619,16 @@
         .mic-icon {
 
             width: 27px;
+
             height: 27px;
 
             fill: white;
         }
 
 
+
         /* ==========================================
-           STATUS BOX
+           STATUS
         ========================================== */
 
         .status-box {
@@ -517,14 +639,18 @@
         }
 
 
+
         #status {
 
-            font-family: "JetBrains Mono", monospace;
+            font-family:
+                "JetBrains Mono",
+                monospace;
 
             font-size: 0.62rem;
 
             color: #d4d4d8;
         }
+
 
 
         /* ==========================================
@@ -535,7 +661,8 @@
 
             min-height: 38px;
 
-            padding: 0.55rem 0.75rem;
+            padding:
+                0.55rem 0.75rem;
 
             border-radius: 10px;
 
@@ -543,9 +670,12 @@
                 rgba(0, 0, 0, 0.25);
 
             border:
-                1px solid rgba(255, 255, 255, 0.08);
+                1px solid
+                rgba(255, 255, 255, 0.08);
 
-            font-family: "JetBrains Mono", monospace;
+            font-family:
+                "JetBrains Mono",
+                monospace;
 
             font-size: 0.58rem;
 
@@ -559,6 +689,7 @@
         }
 
 
+
         /* ==========================================
            WAVE
         ========================================== */
@@ -570,12 +701,14 @@
             display: flex;
 
             align-items: center;
+
             justify-content: center;
 
             gap: 3px;
 
             margin-bottom: 0.65rem;
         }
+
 
 
         .wave span {
@@ -593,11 +726,17 @@
         }
 
 
+
         .wave.active span {
 
             animation:
-                waveAnimation 0.8s ease-in-out infinite alternate;
+                waveAnimation
+                0.8s
+                ease-in-out
+                infinite
+                alternate;
         }
+
 
 
         .wave span:nth-child(1) {
@@ -633,25 +772,31 @@
         }
 
 
+
         @keyframes waveAnimation {
 
             from {
+
                 height: 4px;
             }
 
             to {
+
                 height: 17px;
             }
         }
 
 
+
         /* ==========================================
-           COMMANDS
+           COMMAND TITLE
         ========================================== */
 
         .commands-title {
 
-            font-family: "JetBrains Mono", monospace;
+            font-family:
+                "JetBrains Mono",
+                monospace;
 
             font-size: 0.55rem;
 
@@ -667,6 +812,11 @@
         }
 
 
+
+        /* ==========================================
+           COMMANDS
+        ========================================== */
+
         .commands {
 
             display: flex;
@@ -679,21 +829,26 @@
         }
 
 
+
         .command-chip {
 
-            padding: 6px 8px;
+            padding:
+                6px 8px;
 
             border-radius: 8px;
 
             border:
-                1px solid rgba(255, 255, 255, 0.08);
+                1px solid
+                rgba(255, 255, 255, 0.08);
 
             background:
                 rgba(255, 255, 255, 0.04);
 
             color: #a1a1aa;
 
-            font-family: "JetBrains Mono", monospace;
+            font-family:
+                "JetBrains Mono",
+                monospace;
 
             font-size: 0.55rem;
 
@@ -702,6 +857,7 @@
             transition:
                 all 0.2s ease;
         }
+
 
 
         .command-chip:hover {
@@ -714,8 +870,10 @@
             border-color:
                 rgba(167, 139, 250, 0.35);
 
-            transform: translateY(-1px);
+            transform:
+                translateY(-1px);
         }
+
 
 
         /* ==========================================
@@ -736,7 +894,8 @@
 
                 max-width: 360px;
 
-                padding: 1.1rem 1rem;
+                padding:
+                    1.1rem 1rem;
 
                 border-radius: 21px;
             }
@@ -752,7 +911,8 @@
 
                 margin-bottom: 0.4rem;
 
-                padding: 4px 8px;
+                padding:
+                    4px 8px;
 
                 font-size: 0.52rem;
             }
@@ -773,6 +933,7 @@
             .visualizer-container {
 
                 width: 105px;
+
                 height: 105px;
 
                 margin-bottom: 0.75rem;
@@ -782,6 +943,7 @@
             .mic-btn {
 
                 width: 66px;
+
                 height: 66px;
             }
 
@@ -789,6 +951,7 @@
             .mic-icon {
 
                 width: 24px;
+
                 height: 24px;
             }
 
@@ -809,7 +972,8 @@
 
                 min-height: 34px;
 
-                padding: 0.45rem 0.6rem;
+                padding:
+                    0.45rem 0.6rem;
 
                 font-size: 0.52rem;
 
@@ -835,11 +999,13 @@
 
             .command-chip {
 
-                padding: 5px 6px;
+                padding:
+                    5px 6px;
 
                 font-size: 0.48rem;
             }
         }
+
 
 
         /* ==========================================
@@ -850,13 +1016,15 @@
 
             .container {
 
-                padding: 0.9rem 0.9rem;
+                padding:
+                    0.9rem 0.9rem;
             }
 
 
             .visualizer-container {
 
                 width: 90px;
+
                 height: 90px;
 
                 margin-bottom: 0.6rem;
@@ -866,6 +1034,7 @@
             .mic-btn {
 
                 width: 58px;
+
                 height: 58px;
             }
 
@@ -873,19 +1042,24 @@
             .mic-icon {
 
                 width: 21px;
+
                 height: 21px;
             }
         }
 
+
+
     </style>
+
 </head>
+
 
 
 <body>
 
 
     <!-- ==========================================
-         CAMERA BACKGROUND
+         CAMERA
     ========================================== -->
 
     <video
@@ -901,16 +1075,19 @@
     <div class="camera-glow"></div>
 
 
+
     <!-- ==========================================
-         MAIN CARD
+         NOVA AI CARD
     ========================================== -->
 
-    <main class="container">
+    <main class="container"
+        id="novaCard">
 
 
         <!-- HEADER -->
 
         <header class="header">
+
 
             <div class="status-indicator">
 
@@ -922,13 +1099,18 @@
 
 
             <h1 class="title">
+
                 Nova AI
+
             </h1>
 
 
             <p class="subtitle">
+
                 NEXT-GEN VOICE AGENT
+
             </p>
+
 
         </header>
 
@@ -940,6 +1122,7 @@
 
         <div class="visualizer-container">
 
+
             <div class="ring ring-1"></div>
 
             <div class="ring ring-2"></div>
@@ -950,9 +1133,11 @@
                 class="mic-btn"
                 aria-label="Start voice command">
 
+
                 <svg
                     class="mic-icon"
                     viewBox="0 0 24 24">
+
 
                     <path d="
                         M12 14
@@ -961,10 +1146,12 @@
                         a3 3 0 0 0 3 3z
                     " />
 
+
                     <path d="
                         M19 11
                         a7 7 0 0 1-14 0
                     " />
+
 
                     <line
                         x1="12"
@@ -973,6 +1160,7 @@
                         y2="22"
                     />
 
+
                     <line
                         x1="8"
                         y1="22"
@@ -980,9 +1168,12 @@
                         y2="22"
                     />
 
+
                 </svg>
 
+
             </button>
+
 
         </div>
 
@@ -995,7 +1186,9 @@
         <div class="status-box">
 
             <span id="status">
+
                 CLICK THE MIC TO START
+
             </span>
 
         </div>
@@ -1024,21 +1217,30 @@
             id="wave"
             class="wave">
 
+
             <span></span>
+
             <span></span>
+
             <span></span>
+
             <span></span>
+
             <span></span>
+
             <span></span>
+
             <span></span>
+
             <span></span>
+
 
         </div>
 
 
 
         <!-- ======================================
-             COMMAND EXAMPLES
+             COMMANDS
         ======================================= -->
 
         <div class="commands-title">
@@ -1087,24 +1289,46 @@
 
     <script>
 
+
         /* ==========================================
            ELEMENTS
         ========================================== */
 
         const micBtn =
-            document.getElementById("micBtn");
+            document.getElementById(
+                "micBtn"
+            );
+
 
         const status =
-            document.getElementById("status");
+            document.getElementById(
+                "status"
+            );
+
 
         const transcript =
-            document.getElementById("transcript");
+            document.getElementById(
+                "transcript"
+            );
+
 
         const wave =
-            document.getElementById("wave");
+            document.getElementById(
+                "wave"
+            );
+
 
         const cameraBackground =
-            document.getElementById("cameraBackground");
+            document.getElementById(
+                "cameraBackground"
+            );
+
+
+        const draggableCard =
+            document.getElementById(
+                "novaCard"
+            );
+
 
 
         /* ==========================================
@@ -1123,35 +1347,54 @@
 
         if (SpeechRecognition) {
 
+
             recognition =
                 new SpeechRecognition();
 
 
-            recognition.continuous = false;
+            recognition.continuous =
+                false;
 
-            recognition.interimResults = false;
 
-            recognition.lang = "en-US";
+            recognition.interimResults =
+                false;
+
+
+            recognition.lang =
+                "en-US";
+
 
 
             /* ======================================
-               START
+               START LISTENING
             ====================================== */
 
-            recognition.onstart = function () {
+            recognition.onstart =
+                function () {
 
-                isListening = true;
 
-                micBtn.classList.add("listening");
+                    isListening = true;
 
-                wave.classList.add("active");
 
-                status.textContent =
-                    "LISTENING...";
+                    micBtn.classList.add(
+                        "listening"
+                    );
 
-                transcript.textContent =
-                    "Speak your command...";
-            };
+
+                    wave.classList.add(
+                        "active"
+                    );
+
+
+                    status.textContent =
+                        "LISTENING...";
+
+
+                    transcript.textContent =
+                        "Speak your command...";
+
+                };
+
 
 
             /* ======================================
@@ -1161,8 +1404,11 @@
             recognition.onresult =
                 function (event) {
 
+
                     const command =
-                        event.results[0][0].transcript;
+                        event
+                            .results[0][0]
+                            .transcript;
 
 
                     transcript.textContent =
@@ -1173,32 +1419,46 @@
                         "PROCESSING COMMAND...";
 
 
-                    sendCommand(command);
+                    sendCommand(
+                        command
+                    );
+
                 };
+
 
 
             /* ======================================
                END
             ====================================== */
 
-            recognition.onend = function () {
-
-                isListening = false;
-
-                micBtn.classList.remove("listening");
-
-                wave.classList.remove("active");
+            recognition.onend =
+                function () {
 
 
-                if (
-                    status.textContent ===
-                    "LISTENING..."
-                ) {
+                    isListening = false;
 
-                    status.textContent =
-                        "CLICK THE MIC TO START";
-                }
-            };
+
+                    micBtn.classList.remove(
+                        "listening"
+                    );
+
+
+                    wave.classList.remove(
+                        "active"
+                    );
+
+
+                    if (
+                        status.textContent ===
+                        "LISTENING..."
+                    ) {
+
+                        status.textContent =
+                            "CLICK THE MIC TO START";
+                    }
+
+                };
+
 
 
             /* ======================================
@@ -1208,6 +1468,7 @@
             recognition.onerror =
                 function (event) {
 
+
                     console.error(
                         "Speech recognition error:",
                         event.error
@@ -1216,9 +1477,11 @@
 
                     isListening = false;
 
+
                     micBtn.classList.remove(
                         "listening"
                     );
+
 
                     wave.classList.remove(
                         "active"
@@ -1233,7 +1496,9 @@
                         status.textContent =
                             "MICROPHONE PERMISSION DENIED";
 
-                    } else if (
+                    }
+
+                    else if (
                         event.error ===
                         "no-speech"
                     ) {
@@ -1241,17 +1506,25 @@
                         status.textContent =
                             "NO SPEECH DETECTED";
 
-                    } else {
+                    }
+
+                    else {
 
                         status.textContent =
                             "VOICE ERROR";
                     }
+
                 };
 
-        } else {
+
+        }
+
+        else {
+
 
             status.textContent =
                 "VOICE RECOGNITION NOT SUPPORTED";
+
         }
 
 
@@ -1264,11 +1537,14 @@
             "click",
             function () {
 
+
                 if (!recognition) {
+
 
                     alert(
                         "Your browser does not support Speech Recognition."
                     );
+
 
                     return;
                 }
@@ -1276,7 +1552,9 @@
 
                 if (isListening) {
 
+
                     recognition.stop();
+
 
                     return;
                 }
@@ -1284,11 +1562,18 @@
 
                 try {
 
+
                     recognition.start();
 
-                } catch (error) {
 
-                    console.error(error);
+                }
+
+                catch (error) {
+
+
+                    console.error(
+                        error
+                    );
 
                 }
 
@@ -1298,41 +1583,54 @@
 
 
         /* ==========================================
-           SEND COMMAND TO BACKEND
+           SEND COMMAND
         ========================================== */
 
-        async function sendCommand(commandText) {
+        async function sendCommand(
+            commandText
+        ) {
+
 
             try {
+
 
                 status.textContent =
                     "CONNECTING TO NOVA CORE...";
 
 
                 const response =
-                    await fetch("/agent", {
+                    await fetch(
+                        "/agent",
+                        {
 
-                        method: "POST",
+                            method: "POST",
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                            headers: {
 
-                        body: JSON.stringify({
+                                "Content-Type":
+                                    "application/json"
 
-                            command: commandText
+                            },
 
-                        })
+                            body:
+                                JSON.stringify({
 
-                    });
+                                    command:
+                                        commandText
+
+                                })
+
+                        }
+                    );
 
 
                 if (!response.ok) {
 
+
                     throw new Error(
                         `Server error: ${response.status}`
                     );
+
                 }
 
 
@@ -1348,39 +1646,47 @@
 
                 if (data.success) {
 
+
                     status.textContent =
                         data.message ||
                         "COMMAND EXECUTED";
 
 
-                    /*
-                     * Open returned URL
-                     */
-
                     if (data.url) {
+
 
                         setTimeout(
                             function () {
+
 
                                 window.open(
                                     data.url,
                                     "_blank"
                                 );
 
+
                             },
                             600
                         );
+
                     }
 
-                } else {
+                }
+
+                else {
+
 
                     status.textContent =
                         data.message ||
                         "COMMAND FAILED";
+
                 }
 
 
-            } catch (error) {
+            }
+
+            catch (error) {
+
 
                 console.error(
                     "Agent error:",
@@ -1390,6 +1696,7 @@
 
                 status.textContent =
                     "AGENT CONNECTION FAILED";
+
             }
 
         }
@@ -1401,27 +1708,35 @@
         ========================================== */
 
         document
-            .querySelectorAll(".command-chip")
-            .forEach(function (chip) {
-
-                chip.addEventListener(
-                    "click",
-                    function () {
-
-                        const command =
-                            this.dataset.command;
+            .querySelectorAll(
+                ".command-chip"
+            )
+            .forEach(
+                function (chip) {
 
 
-                        transcript.textContent =
-                            command;
+                    chip.addEventListener(
+                        "click",
+                        function () {
 
 
-                        sendCommand(command);
+                            const command =
+                                this.dataset.command;
 
-                    }
-                );
 
-            });
+                            transcript.textContent =
+                                command;
+
+
+                            sendCommand(
+                                command
+                            );
+
+                        }
+                    );
+
+                }
+            );
 
 
 
@@ -1431,47 +1746,57 @@
 
         async function startCamera() {
 
+
             try {
+
 
                 if (
                     !navigator.mediaDevices ||
                     !navigator.mediaDevices.getUserMedia
                 ) {
 
+
                     console.warn(
                         "Camera API not supported."
                     );
+
 
                     return;
                 }
 
 
                 const stream =
-                    await navigator.mediaDevices.getUserMedia({
+                    await navigator
+                        .mediaDevices
+                        .getUserMedia({
 
-                        video: {
+                            video: {
 
-                            /*
-                             * Rear / Back camera
-                             */
+                                /*
+                                 * BACK / REAR CAMERA
+                                 */
 
-                            facingMode: {
-                                ideal: "environment"
+                                facingMode: {
+                                    ideal:
+                                        "environment"
+                                },
+
+
+                                width: {
+                                    ideal: 1920
+                                },
+
+
+                                height: {
+                                    ideal: 1080
+                                }
+
                             },
 
-                            width: {
-                                ideal: 1920
-                            },
 
-                            height: {
-                                ideal: 1080
-                            }
+                            audio: false
 
-                        },
-
-                        audio: false
-
-                    });
+                        });
 
 
                 cameraBackground.srcObject =
@@ -1483,7 +1808,10 @@
                 );
 
 
-            } catch (error) {
+            }
+
+            catch (error) {
+
 
                 console.error(
                     "Camera error:",
@@ -1491,16 +1819,13 @@
                 );
 
 
-                /*
-                 * Hide video if camera
-                 * permission is denied.
-                 */
-
                 cameraBackground.style.display =
                     "none";
+
             }
 
         }
+
 
 
         /* ==========================================
@@ -1512,30 +1837,404 @@
 
 
         /* ==========================================
-           STOP CAMERA WHEN PAGE CLOSES
+           DRAG VARIABLES
+        ========================================== */
+
+        let isDragging = false;
+
+
+        let startX = 0;
+
+        let startY = 0;
+
+
+        let startLeft = 0;
+
+        let startTop = 0;
+
+
+
+        /* ==========================================
+           GET SAFE CARD POSITION
+        ========================================== */
+
+        function prepareCardForDrag() {
+
+
+            const rect =
+                draggableCard
+                    .getBoundingClientRect();
+
+
+            draggableCard.style.position =
+                "fixed";
+
+
+            draggableCard.style.left =
+                `${rect.left}px`;
+
+
+            draggableCard.style.top =
+                `${rect.top}px`;
+
+
+            draggableCard.style.margin =
+                "0";
+
+
+            return rect;
+
+        }
+
+
+
+        /* ==========================================
+           MOUSE DOWN
+        ========================================== */
+
+        draggableCard.addEventListener(
+            "mousedown",
+            function (event) {
+
+
+                /*
+                 * Don't drag when clicking
+                 * buttons.
+                 */
+
+                if (
+                    event.target.closest(
+                        "button"
+                    )
+                ) {
+
+                    return;
+                }
+
+
+                const rect =
+                    prepareCardForDrag();
+
+
+                isDragging = true;
+
+
+                draggableCard.classList.add(
+                    "dragging"
+                );
+
+
+                startX =
+                    event.clientX;
+
+
+                startY =
+                    event.clientY;
+
+
+                startLeft =
+                    rect.left;
+
+
+                startTop =
+                    rect.top;
+
+
+                event.preventDefault();
+
+            }
+        );
+
+
+
+        /* ==========================================
+           MOUSE MOVE
+        ========================================== */
+
+        document.addEventListener(
+            "mousemove",
+            function (event) {
+
+
+                if (!isDragging) {
+
+                    return;
+                }
+
+
+                const deltaX =
+                    event.clientX -
+                    startX;
+
+
+                const deltaY =
+                    event.clientY -
+                    startY;
+
+
+                moveCard(
+                    startLeft + deltaX,
+                    startTop + deltaY
+                );
+
+            }
+        );
+
+
+
+        /* ==========================================
+           MOUSE UP
+        ========================================== */
+
+        document.addEventListener(
+            "mouseup",
+            function () {
+
+
+                if (!isDragging) {
+
+                    return;
+                }
+
+
+                isDragging = false;
+
+
+                draggableCard.classList.remove(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+
+        /* ==========================================
+           TOUCH START
+        ========================================== */
+
+        draggableCard.addEventListener(
+            "touchstart",
+            function (event) {
+
+
+                /*
+                 * Don't drag buttons.
+                 */
+
+                if (
+                    event.target.closest(
+                        "button"
+                    )
+                ) {
+
+                    return;
+                }
+
+
+                const touch =
+                    event.touches[0];
+
+
+                const rect =
+                    prepareCardForDrag();
+
+
+                isDragging = true;
+
+
+                draggableCard.classList.add(
+                    "dragging"
+                );
+
+
+                startX =
+                    touch.clientX;
+
+
+                startY =
+                    touch.clientY;
+
+
+                startLeft =
+                    rect.left;
+
+
+                startTop =
+                    rect.top;
+
+
+                event.preventDefault();
+
+            },
+            {
+                passive: false
+            }
+        );
+
+
+
+        /* ==========================================
+           TOUCH MOVE
+        ========================================== */
+
+        document.addEventListener(
+            "touchmove",
+            function (event) {
+
+
+                if (!isDragging) {
+
+                    return;
+                }
+
+
+                const touch =
+                    event.touches[0];
+
+
+                const deltaX =
+                    touch.clientX -
+                    startX;
+
+
+                const deltaY =
+                    touch.clientY -
+                    startY;
+
+
+                moveCard(
+                    startLeft + deltaX,
+                    startTop + deltaY
+                );
+
+
+                event.preventDefault();
+
+            },
+            {
+                passive: false
+            }
+        );
+
+
+
+        /* ==========================================
+           TOUCH END
+        ========================================== */
+
+        document.addEventListener(
+            "touchend",
+            function () {
+
+
+                if (!isDragging) {
+
+                    return;
+                }
+
+
+                isDragging = false;
+
+
+                draggableCard.classList.remove(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+
+        /* ==========================================
+           MOVE CARD
+        ========================================== */
+
+        function moveCard(
+            newLeft,
+            newTop
+        ) {
+
+
+            const rect =
+                draggableCard
+                    .getBoundingClientRect();
+
+
+            const maxLeft =
+                window.innerWidth -
+                rect.width;
+
+
+            const maxTop =
+                window.innerHeight -
+                rect.height;
+
+
+            newLeft =
+                Math.max(
+                    0,
+                    Math.min(
+                        newLeft,
+                        maxLeft
+                    )
+                );
+
+
+            newTop =
+                Math.max(
+                    0,
+                    Math.min(
+                        newTop,
+                        maxTop
+                    )
+                );
+
+
+            draggableCard.style.left =
+                `${newLeft}px`;
+
+
+            draggableCard.style.top =
+                `${newTop}px`;
+
+        }
+
+
+
+        /* ==========================================
+           STOP CAMERA ON PAGE CLOSE
         ========================================== */
 
         window.addEventListener(
             "beforeunload",
             function () {
 
+
                 const stream =
-                    cameraBackground.srcObject;
+                    cameraBackground
+                        .srcObject;
 
 
                 if (stream) {
 
+
                     stream
                         .getTracks()
-                        .forEach(function (track) {
+                        .forEach(
+                            function (track) {
 
-                            track.stop();
+                                track.stop();
 
-                        });
+                            }
+                        );
+
                 }
 
             }
         );
+
+
 
     </script>
 
