@@ -8,40 +8,35 @@
     <title>Nova AI // Next-Gen Voice Agent</title>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <style>
 
-        /* =========================================================
+        /* ==========================================
            ROOT
-        ========================================================= */
+        ========================================== */
 
         :root {
             --bg: #030305;
-
-            --surface: rgba(18, 18, 26, 0.70);
-
-            --border: rgba(255, 255, 255, 0.12);
-
-            --text-main: #ffffff;
-            --text-muted: #9ca3af;
+            --surface: rgba(18, 18, 26, 0.68);
 
             --primary: #7c3aed;
             --primary-light: #a78bfa;
 
-            --success: #22c55e;
-            --danger: #ef4444;
+            --secondary: #4f46e5;
+
+            --text: #ffffff;
+            --text-muted: #a1a1aa;
+
+            --border: rgba(255, 255, 255, 0.12);
         }
 
 
-        /* =========================================================
+        /* ==========================================
            RESET
-        ========================================================= */
+        ========================================== */
 
         * {
             margin: 0;
@@ -50,12 +45,9 @@
         }
 
 
-        html,
-        body {
-            width: 100%;
-            min-height: 100%;
-        }
-
+        /* ==========================================
+           BODY
+        ========================================== */
 
         body {
             min-height: 100vh;
@@ -68,22 +60,21 @@
 
             background: var(--bg);
 
-            color: var(--text-main);
+            font-family: "Plus Jakarta Sans", sans-serif;
 
-            font-family:
-                "Plus Jakarta Sans",
-                sans-serif;
+            color: var(--text);
 
             overflow: hidden;
+
+            position: relative;
         }
 
 
-        /* =========================================================
+        /* ==========================================
            CAMERA BACKGROUND
-        ========================================================= */
+        ========================================== */
 
         #cameraBackground {
-
             position: fixed;
 
             inset: 0;
@@ -93,96 +84,81 @@
 
             object-fit: cover;
 
-            z-index: -3;
+            z-index: 0;
 
-            /*
-             * No scaleX(-1)
-             * because this is intended for the
-             * rear camera / real-world view.
-             */
-
-            background: #030305;
+            background: #000;
         }
 
 
-        /* =========================================================
+        /* ==========================================
            CAMERA OVERLAY
-        ========================================================= */
+        ========================================== */
 
         .camera-overlay {
-
             position: fixed;
 
             inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            z-index: -2;
 
             background:
                 linear-gradient(
-                    180deg,
-                    rgba(0, 0, 0, 0.48) 0%,
-                    rgba(0, 0, 0, 0.18) 40%,
-                    rgba(0, 0, 0, 0.60) 100%
+                    135deg,
+                    rgba(0, 0, 0, 0.45),
+                    rgba(0, 0, 0, 0.18),
+                    rgba(0, 0, 0, 0.5)
                 );
 
-            backdrop-filter: blur(3px);
+            z-index: 1;
 
-            -webkit-backdrop-filter: blur(3px);
+            pointer-events: none;
         }
 
 
-        /* =========================================================
+        /* ==========================================
            CAMERA GLOW
-        ========================================================= */
+        ========================================== */
 
         .camera-glow {
-
             position: fixed;
 
             inset: 0;
-
-            z-index: -1;
-
-            pointer-events: none;
 
             background:
                 radial-gradient(
                     circle at center,
-                    rgba(124, 58, 237, 0.12),
-                    transparent 55%
+                    transparent 15%,
+                    rgba(0, 0, 0, 0.25) 70%,
+                    rgba(0, 0, 0, 0.65) 100%
                 );
+
+            z-index: 2;
+
+            pointer-events: none;
         }
 
 
-        /* =========================================================
+        /* ==========================================
            MAIN CARD
-        ========================================================= */
+        ========================================== */
 
         .container {
 
             width: 100%;
 
-            max-width: 520px;
+            max-width: 420px;
 
-            padding: 1.8rem 2.5rem;
+            padding: 1.35rem 1.6rem;
 
-            background: var(--surface);
+            background: rgba(18, 18, 26, 0.68);
 
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
 
-            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
 
-            border:
-                1px solid
-                var(--border);
-
-            border-radius: 28px;
+            border-radius: 24px;
 
             box-shadow:
-                0 25px 50px rgba(0, 0, 0, 0.55),
+                0 20px 45px rgba(0, 0, 0, 0.50),
                 inset 0 1px 0 rgba(255, 255, 255, 0.12);
 
             position: relative;
@@ -199,43 +175,45 @@
         }
 
 
-        /* =========================================================
+        /* ==========================================
            CARD ENTRANCE
-        ========================================================= */
+        ========================================== */
 
         @keyframes containerEntrance {
 
             0% {
-
                 opacity: 0;
 
                 transform:
-                    translateY(60px)
-                    scale(0.95);
+                    translateY(50px)
+                    scale(0.94);
             }
 
             100% {
-
                 opacity: 1;
 
                 transform:
-                    translateY(30px)
+                    translateY(25px)
                     scale(1);
             }
         }
 
 
-        /* =========================================================
+        /* ==========================================
            HEADER
-        ========================================================= */
+        ========================================== */
 
         .header {
 
             text-align: center;
 
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
+
+        /* ==========================================
+           STATUS INDICATOR
+        ========================================== */
 
         .status-indicator {
 
@@ -243,28 +221,23 @@
 
             align-items: center;
 
-            gap: 8px;
+            gap: 7px;
 
-            margin-bottom: 0.65rem;
+            padding: 4px 9px;
 
-            padding: 5px 11px;
+            margin-bottom: 0.5rem;
 
-            border-radius: 50px;
+            border-radius: 999px;
 
-            background:
-                rgba(34, 197, 94, 0.10);
+            background: rgba(255, 255, 255, 0.06);
 
-            border:
-                1px solid
-                rgba(34, 197, 94, 0.20);
+            border: 1px solid rgba(255, 255, 255, 0.1);
 
-            color: #86efac;
+            font-family: "JetBrains Mono", monospace;
 
-            font-size: 0.68rem;
+            font-size: 0.58rem;
 
-            font-family:
-                "JetBrains Mono",
-                monospace;
+            color: #d4d4d8;
 
             letter-spacing: 0.05em;
         }
@@ -277,17 +250,12 @@
 
             border-radius: 50%;
 
-            background:
-                var(--success);
+            background: #22c55e;
 
             box-shadow:
-                0 0 10px
-                rgba(34, 197, 94, 0.8);
+                0 0 10px #22c55e;
 
-            animation:
-                statusPulse
-                2s
-                infinite;
+            animation: statusPulse 2s infinite;
         }
 
 
@@ -299,77 +267,79 @@
             }
 
             50% {
-                opacity: 0.35;
+                opacity: 0.4;
             }
         }
 
 
+        /* ==========================================
+           TITLE
+        ========================================== */
+
         .title {
 
-            font-size: 2.1rem;
-
-            line-height: 1.1;
+            font-size: 1.75rem;
 
             font-weight: 800;
 
-            letter-spacing: -0.05em;
+            letter-spacing: -0.04em;
 
-            margin-bottom: 0.5rem;
-        }
-
-
-        .title span {
+            margin-bottom: 0.35rem;
 
             background:
                 linear-gradient(
-                    90deg,
+                    135deg,
                     #ffffff,
-                    #a78bfa,
-                    #818cf8
+                    #c4b5fd
                 );
 
             -webkit-background-clip: text;
 
-            -webkit-text-fill-color:
-                transparent;
-
             background-clip: text;
+
+            color: transparent;
         }
 
+
+        /* ==========================================
+           SUBTITLE
+        ========================================== */
 
         .subtitle {
 
-            color:
-                var(--text-muted);
+            font-family: "JetBrains Mono", monospace;
 
-            font-size: 0.8rem;
+            font-size: 0.68rem;
 
-            line-height: 1.5;
+            line-height: 1.4;
+
+            color: var(--text-muted);
         }
 
 
-        /* =========================================================
+        /* ==========================================
            VISUALIZER
-        ========================================================= */
+        ========================================== */
 
         .visualizer-container {
 
-            width: 160px;
-
-            height: 160px;
-
-            margin:
-                0 auto 1.5rem auto;
-
             position: relative;
+
+            width: 125px;
+            height: 125px;
+
+            margin: 0 auto 1rem auto;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
         }
 
+
+        /* ==========================================
+           OUTER RING
+        ========================================== */
 
         .ring {
 
@@ -377,43 +347,29 @@
 
             border-radius: 50%;
 
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.35);
-
-            animation:
-                rotateRing
-                12s
-                linear
-                infinite;
+            border: 1px solid rgba(167, 139, 250, 0.25);
         }
 
 
         .ring-1 {
 
             width: 100%;
-
             height: 100%;
 
-            border-top-color:
-                rgba(139, 92, 246, 0.9);
+            animation:
+                rotateRing 12s linear infinite;
         }
 
 
         .ring-2 {
 
-            width: 82%;
+            width: 80%;
+            height: 80%;
 
-            height: 82%;
+            border-color: rgba(124, 58, 237, 0.35);
 
-            border-bottom-color:
-                rgba(99, 102, 241, 0.9);
-
-            animation-direction:
-                reverse;
-
-            animation-duration:
-                9s;
+            animation:
+                rotateRingReverse 9s linear infinite;
         }
 
 
@@ -429,26 +385,36 @@
         }
 
 
-        /* =========================================================
+        @keyframes rotateRingReverse {
+
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+
+        /* ==========================================
            MIC BUTTON
-        ========================================================= */
+        ========================================== */
 
         .mic-btn {
 
-            width: 95px;
-
-            height: 95px;
-
-            border: none;
+            width: 76px;
+            height: 76px;
 
             border-radius: 50%;
+
+            border: none;
 
             cursor: pointer;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             position: relative;
@@ -458,16 +424,12 @@
             background:
                 linear-gradient(
                     135deg,
-                    #8b5cf6,
-                    #6366f1
+                    #7c3aed,
+                    #4f46e5
                 );
 
             box-shadow:
-                0 15px 35px
-                rgba(99, 102, 241, 0.45),
-
-                inset 0 2px 3px
-                rgba(255, 255, 255, 0.3);
+                0 10px 30px rgba(79, 70, 229, 0.4);
 
             transition:
                 transform 0.25s ease,
@@ -477,35 +439,22 @@
 
         .mic-btn:hover {
 
-            transform:
-                scale(1.06);
+            transform: scale(1.06);
 
             box-shadow:
-                0 20px 45px
-                rgba(99, 102, 241, 0.6);
+                0 15px 40px rgba(79, 70, 229, 0.55);
         }
 
 
         .mic-btn:active {
 
-            transform:
-                scale(0.94);
+            transform: scale(0.96);
         }
 
 
-        .mic-icon {
-
-            width: 32px;
-
-            height: 32px;
-
-            fill: white;
-        }
-
-
-        /* =========================================================
-           LISTENING STATE
-        ========================================================= */
+        /* ==========================================
+           MIC LISTENING
+        ========================================== */
 
         .mic-btn.listening {
 
@@ -517,166 +466,143 @@
                 );
 
             box-shadow:
-                0 0 0 10px
-                rgba(239, 68, 68, 0.10),
-
-                0 0 45px
-                rgba(239, 68, 68, 0.55);
+                0 0 0 0 rgba(239, 68, 68, 0.5);
 
             animation:
-                listeningPulse
-                1.5s
-                infinite;
+                micPulse 1.5s infinite;
         }
 
 
-        @keyframes listeningPulse {
+        @keyframes micPulse {
 
-            0%,
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(239, 68, 68, 0.55);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 20px rgba(239, 68, 68, 0);
+            }
+
             100% {
-
-                transform:
-                    scale(1);
-            }
-
-            50% {
-
-                transform:
-                    scale(1.04);
+                box-shadow:
+                    0 0 0 0 rgba(239, 68, 68, 0);
             }
         }
 
 
-        /* =========================================================
-           STATUS
-        ========================================================= */
+        /* ==========================================
+           MIC ICON
+        ========================================== */
+
+        .mic-icon {
+
+            width: 27px;
+            height: 27px;
+
+            fill: white;
+        }
+
+
+        /* ==========================================
+           STATUS BOX
+        ========================================== */
 
         .status-box {
 
-            text-align: center;
+            margin-bottom: 0.7rem;
 
-            margin-bottom: 1rem;
+            text-align: center;
         }
 
 
         #status {
 
-            font-family:
-                "JetBrains Mono",
-                monospace;
+            font-family: "JetBrains Mono", monospace;
 
-            font-size: 0.72rem;
+            font-size: 0.62rem;
 
-            color:
-                #c4b5fd;
-
-            letter-spacing:
-                0.02em;
+            color: #d4d4d8;
         }
 
 
-        /* =========================================================
+        /* ==========================================
            TRANSCRIPT
-        ========================================================= */
+        ========================================== */
 
         .transcript {
 
-            min-height: 45px;
+            min-height: 38px;
 
-            padding:
-                0.8rem 1rem;
+            padding: 0.55rem 0.75rem;
 
-            border-radius: 12px;
+            border-radius: 10px;
 
             background:
                 rgba(0, 0, 0, 0.25);
 
             border:
-                1px solid
-                rgba(255, 255, 255, 0.07);
+                1px solid rgba(255, 255, 255, 0.08);
 
-            color:
-                #d1d5db;
+            font-family: "JetBrains Mono", monospace;
 
-            font-family:
-                "JetBrains Mono",
-                monospace;
+            font-size: 0.58rem;
 
-            font-size:
-                0.68rem;
+            line-height: 1.4;
 
-            line-height:
-                1.5;
+            color: #d4d4d8;
 
-            text-align:
-                center;
+            margin-bottom: 0.7rem;
 
-            word-break:
-                break-word;
-
-            margin-bottom:
-                1rem;
+            text-align: center;
         }
 
 
-        #transcript:empty::before {
-
-            content:
-                "Your voice command will appear here...";
-
-            color:
-                rgba(255, 255, 255, 0.3);
-        }
-
-
-        /* =========================================================
+        /* ==========================================
            WAVE
-        ========================================================= */
+        ========================================== */
 
         .wave {
 
-            height: 24px;
+            height: 18px;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             gap: 3px;
 
-            margin-bottom: 1rem;
+            margin-bottom: 0.65rem;
         }
 
 
         .wave span {
 
-            display: block;
+            width: 2px;
 
-            width: 3px;
+            height: 4px;
 
-            height: 5px;
+            border-radius: 2px;
 
-            border-radius: 5px;
-
-            background:
-                rgba(167, 139, 250, 0.5);
+            background: #8b5cf6;
 
             transition:
-                height 0.15s ease;
+                height 0.2s ease;
         }
 
 
         .wave.active span {
 
             animation:
-                waveAnimation
-                0.8s
-                ease-in-out
-                infinite
-                alternate;
+                waveAnimation 0.8s ease-in-out infinite alternate;
         }
 
+
+        .wave span:nth-child(1) {
+            animation-delay: 0s;
+        }
 
         .wave span:nth-child(2) {
             animation-delay: 0.1s;
@@ -695,98 +621,83 @@
         }
 
         .wave span:nth-child(6) {
-            animation-delay: 0.5s;
+            animation-delay: 0.3s;
         }
 
         .wave span:nth-child(7) {
-            animation-delay: 0.6s;
+            animation-delay: 0.2s;
+        }
+
+        .wave span:nth-child(8) {
+            animation-delay: 0.1s;
         }
 
 
         @keyframes waveAnimation {
 
             from {
-                height: 5px;
+                height: 4px;
             }
 
             to {
-                height: 22px;
+                height: 17px;
             }
         }
 
 
-        /* =========================================================
+        /* ==========================================
            COMMANDS
-        ========================================================= */
+        ========================================== */
 
         .commands-title {
 
-            text-align:
-                center;
+            font-family: "JetBrains Mono", monospace;
 
-            color:
-                rgba(255, 255, 255, 0.45);
+            font-size: 0.55rem;
 
-            font-size:
-                0.62rem;
+            letter-spacing: 0.1em;
 
-            text-transform:
-                uppercase;
+            color: #71717a;
 
-            letter-spacing:
-                0.12em;
+            text-align: center;
 
-            margin-bottom:
-                0.65rem;
+            margin-bottom: 0.45rem;
+
+            text-transform: uppercase;
         }
 
 
         .commands {
 
-            display:
-                flex;
+            display: flex;
 
-            flex-direction:
-                column;
+            flex-wrap: wrap;
 
-            gap:
-                6px;
+            justify-content: center;
+
+            gap: 5px;
         }
 
 
         .command-chip {
 
-            width:
-                100%;
+            padding: 6px 8px;
+
+            border-radius: 8px;
 
             border:
-                1px solid
-                rgba(255, 255, 255, 0.07);
+                1px solid rgba(255, 255, 255, 0.08);
 
             background:
-                rgba(255, 255, 255, 0.035);
+                rgba(255, 255, 255, 0.04);
 
-            color:
-                rgba(255, 255, 255, 0.62);
+            color: #a1a1aa;
 
-            padding:
-                8px 10px;
+            font-family: "JetBrains Mono", monospace;
 
-            border-radius:
-                9px;
+            font-size: 0.55rem;
 
-            font-family:
-                "JetBrains Mono",
-                monospace;
-
-            font-size:
-                0.61rem;
-
-            text-align:
-                center;
-
-            cursor:
-                pointer;
+            cursor: pointer;
 
             transition:
                 all 0.2s ease;
@@ -795,251 +706,187 @@
 
         .command-chip:hover {
 
+            color: white;
+
             background:
-                rgba(124, 58, 237, 0.15);
+                rgba(124, 58, 237, 0.18);
 
             border-color:
-                rgba(139, 92, 246, 0.35);
+                rgba(167, 139, 250, 0.35);
 
-            color:
-                white;
-
-            transform:
-                translateY(-1px);
+            transform: translateY(-1px);
         }
 
 
-        /* =========================================================
-           CAMERA ERROR
-        ========================================================= */
-
-        .camera-error {
-
-            position:
-                fixed;
-
-            bottom:
-                12px;
-
-            left:
-                50%;
-
-            transform:
-                translateX(-50%);
-
-            padding:
-                7px 12px;
-
-            border-radius:
-                50px;
-
-            background:
-                rgba(0, 0, 0, 0.55);
-
-            border:
-                1px solid
-                rgba(255, 255, 255, 0.08);
-
-            color:
-                rgba(255, 255, 255, 0.45);
-
-            font-family:
-                "JetBrains Mono",
-                monospace;
-
-            font-size:
-                0.55rem;
-
-            opacity:
-                0;
-
-            pointer-events:
-                none;
-
-            transition:
-                opacity 0.3s ease;
-        }
-
-
-        .camera-error.show {
-
-            opacity:
-                1;
-        }
-
-
-        /* =========================================================
+        /* ==========================================
            MOBILE
-        ========================================================= */
+        ========================================== */
 
         @media (max-width: 600px) {
 
             body {
 
-                padding:
-                    0.8rem;
+                padding: 0.7rem;
             }
 
 
             .container {
 
-                max-width:
-                    450px;
+                width: 90%;
 
-                padding:
-                    1.5rem 1.3rem;
+                max-width: 360px;
 
-                border-radius:
-                    24px;
-            }
+                padding: 1.1rem 1rem;
 
-
-            @keyframes containerEntrance {
-
-                0% {
-
-                    opacity:
-                        0;
-
-                    transform:
-                        translateY(50px)
-                        scale(0.95);
-                }
-
-                100% {
-
-                    opacity:
-                        1;
-
-                    transform:
-                        translateY(20px)
-                        scale(1);
-                }
+                border-radius: 21px;
             }
 
 
             .header {
 
-                margin-bottom:
-                    1.1rem;
+                margin-bottom: 0.75rem;
+            }
+
+
+            .status-indicator {
+
+                margin-bottom: 0.4rem;
+
+                padding: 4px 8px;
+
+                font-size: 0.52rem;
             }
 
 
             .title {
 
-                font-size:
-                    1.75rem;
+                font-size: 1.45rem;
             }
 
 
             .subtitle {
 
-                font-size:
-                    0.72rem;
+                font-size: 0.59rem;
             }
 
 
             .visualizer-container {
 
-                width:
-                    140px;
+                width: 105px;
+                height: 105px;
 
-                height:
-                    140px;
-
-                margin-bottom:
-                    1.2rem;
+                margin-bottom: 0.75rem;
             }
 
 
             .mic-btn {
 
-                width:
-                    85px;
-
-                height:
-                    85px;
+                width: 66px;
+                height: 66px;
             }
 
 
             .mic-icon {
 
-                width:
-                    28px;
-
-                height:
-                    28px;
-            }
-        }
-
-
-        /* =========================================================
-           SMALL HEIGHT DEVICES
-        ========================================================= */
-
-        @media (max-height: 700px) {
-
-            .container {
-
-                padding-top:
-                    1.2rem;
-
-                padding-bottom:
-                    1.2rem;
+                width: 24px;
+                height: 24px;
             }
 
 
-            .header {
+            .status-box {
 
-                margin-bottom:
-                    0.8rem;
+                margin-bottom: 0.55rem;
             }
 
 
-            .visualizer-container {
+            #status {
 
-                width:
-                    125px;
-
-                height:
-                    125px;
-
-                margin-bottom:
-                    0.8rem;
-            }
-
-
-            .mic-btn {
-
-                width:
-                    78px;
-
-                height:
-                    78px;
+                font-size: 0.56rem;
             }
 
 
             .transcript {
 
-                min-height:
-                    38px;
+                min-height: 34px;
 
-                padding:
-                    0.55rem;
+                padding: 0.45rem 0.6rem;
+
+                font-size: 0.52rem;
+
+                margin-bottom: 0.55rem;
+            }
+
+
+            .wave {
+
+                height: 15px;
+
+                margin-bottom: 0.5rem;
+            }
+
+
+            .commands-title {
+
+                font-size: 0.5rem;
+
+                margin-bottom: 0.4rem;
+            }
+
+
+            .command-chip {
+
+                padding: 5px 6px;
+
+                font-size: 0.48rem;
+            }
+        }
+
+
+        /* ==========================================
+           SHORT HEIGHT DEVICES
+        ========================================== */
+
+        @media (max-height: 700px) {
+
+            .container {
+
+                padding: 0.9rem 0.9rem;
+            }
+
+
+            .visualizer-container {
+
+                width: 90px;
+                height: 90px;
+
+                margin-bottom: 0.6rem;
+            }
+
+
+            .mic-btn {
+
+                width: 58px;
+                height: 58px;
+            }
+
+
+            .mic-icon {
+
+                width: 21px;
+                height: 21px;
             }
         }
 
     </style>
-
 </head>
 
 
 <body>
 
 
-    <!-- =========================================================
+    <!-- ==========================================
          CAMERA BACKGROUND
-    ========================================================= -->
+    ========================================== -->
 
     <video
         id="cameraBackground"
@@ -1054,10 +901,9 @@
     <div class="camera-glow"></div>
 
 
-
-    <!-- =========================================================
-         MAIN NOVA CARD
-    ========================================================= -->
+    <!-- ==========================================
+         MAIN CARD
+    ========================================== -->
 
     <main class="container">
 
@@ -1076,26 +922,21 @@
 
 
             <h1 class="title">
-
-                <span>Nova AI</span>
-
+                Nova AI
             </h1>
 
 
             <p class="subtitle">
-
-                Next-generation voice agent.
-                Speak a command and let Nova handle it.
-
+                NEXT-GEN VOICE AGENT
             </p>
 
         </header>
 
 
 
-        <!-- =====================================================
-             VISUALIZER + MIC
-        ====================================================== -->
+        <!-- ======================================
+             VISUALIZER
+        ======================================= -->
 
         <div class="visualizer-container">
 
@@ -1113,9 +954,31 @@
                     class="mic-icon"
                     viewBox="0 0 24 24">
 
-                    <path
-                        d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.92V21H8v2h8v-2h-3v-3.08A7 7 0 0 0 19 11h-1.7Z">
-                    </path>
+                    <path d="
+                        M12 14
+                        a3 3 0 0 0 3-3V6
+                        a3 3 0 0 0-6 0v5
+                        a3 3 0 0 0 3 3z
+                    " />
+
+                    <path d="
+                        M19 11
+                        a7 7 0 0 1-14 0
+                    " />
+
+                    <line
+                        x1="12"
+                        y1="18"
+                        x2="12"
+                        y2="22"
+                    />
+
+                    <line
+                        x1="8"
+                        y1="22"
+                        x2="16"
+                        y2="22"
+                    />
 
                 </svg>
 
@@ -1125,30 +988,37 @@
 
 
 
-        <!-- STATUS -->
+        <!-- ======================================
+             STATUS
+        ======================================= -->
 
         <div class="status-box">
 
-            <div id="status">
-
-                Click the microphone to speak
-
-            </div>
+            <span id="status">
+                CLICK THE MIC TO START
+            </span>
 
         </div>
 
 
 
-        <!-- TRANSCRIPT -->
+        <!-- ======================================
+             TRANSCRIPT
+        ======================================= -->
 
         <div
             id="transcript"
             class="transcript">
+
+            Your voice command will appear here...
+
         </div>
 
 
 
-        <!-- WAVE -->
+        <!-- ======================================
+             WAVE
+        ======================================= -->
 
         <div
             id="wave"
@@ -1161,16 +1031,19 @@
             <span></span>
             <span></span>
             <span></span>
+            <span></span>
 
         </div>
 
 
 
-        <!-- COMMAND EXAMPLES -->
+        <!-- ======================================
+             COMMAND EXAMPLES
+        ======================================= -->
 
         <div class="commands-title">
 
-            Try saying
+            TRY SAYING
 
         </div>
 
@@ -1182,7 +1055,7 @@
                 class="command-chip"
                 data-command="Open YouTube and play Karuppu song">
 
-                🎵 Open YouTube and play Karuppu song
+                Open YouTube & play Karuppu
 
             </button>
 
@@ -1191,7 +1064,7 @@
                 class="command-chip"
                 data-command="Email john at gmail.com type hello">
 
-                ✉ Email john at gmail.com type hello
+                Email John
 
             </button>
 
@@ -1200,34 +1073,23 @@
                 class="command-chip"
                 data-command="Open Google">
 
-                🌐 Open Google
+                Open Google
 
             </button>
 
 
         </div>
 
+
     </main>
-
-
-
-    <!-- CAMERA ERROR -->
-
-    <div
-        id="cameraError"
-        class="camera-error">
-
-        Camera access unavailable
-
-    </div>
 
 
 
     <script>
 
-        /* =========================================================
+        /* ==========================================
            ELEMENTS
-        ========================================================= */
+        ========================================== */
 
         const micBtn =
             document.getElementById("micBtn");
@@ -1244,213 +1106,104 @@
         const cameraBackground =
             document.getElementById("cameraBackground");
 
-        const cameraError =
-            document.getElementById("cameraError");
 
-
-
-        /* =========================================================
-           CAMERA
-        ========================================================= */
-
-        let cameraStream = null;
-
-
-        async function startCamera() {
-
-            try {
-
-                if (
-                    !navigator.mediaDevices ||
-                    !navigator.mediaDevices.getUserMedia
-                ) {
-
-                    throw new Error(
-                        "Camera API not supported"
-                    );
-                }
-
-
-                /*
-                 * "environment" tells the browser that
-                 * we prefer the rear/back camera.
-                 *
-                 * This is especially useful on phones.
-                 */
-
-                cameraStream =
-                    await navigator.mediaDevices.getUserMedia({
-
-                        video: {
-
-                            facingMode: {
-                                ideal: "environment"
-                            },
-
-                            width: {
-                                ideal: 1920
-                            },
-
-                            height: {
-                                ideal: 1080
-                            }
-                        },
-
-                        audio: false
-                    });
-
-
-                cameraBackground.srcObject =
-                    cameraStream;
-
-
-                cameraBackground.style.display =
-                    "block";
-
-
-                cameraError.classList.remove(
-                    "show"
-                );
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Camera error:",
-                    error
-                );
-
-
-                cameraBackground.style.display =
-                    "none";
-
-
-                cameraError.classList.add(
-                    "show"
-                );
-            }
-        }
-
-
-        startCamera();
-
-
-
-        /* =========================================================
+        /* ==========================================
            SPEECH RECOGNITION
-        ========================================================= */
+        ========================================== */
 
         const SpeechRecognition =
             window.SpeechRecognition ||
             window.webkitSpeechRecognition;
 
 
-        let recognition = null;
+        let recognition;
+
+        let isListening = false;
 
 
-        if (!SpeechRecognition) {
-
-            status.textContent =
-                "Speech recognition is not supported in this browser.";
-
-        }
-
-        else {
+        if (SpeechRecognition) {
 
             recognition =
                 new SpeechRecognition();
 
 
-            recognition.lang =
-                "en-US";
+            recognition.continuous = false;
+
+            recognition.interimResults = false;
+
+            recognition.lang = "en-US";
 
 
-            recognition.continuous =
-                false;
-
-
-            recognition.interimResults =
-                false;
-
-
-            recognition.maxAlternatives =
-                1;
-
-
-
-            /* =====================================================
+            /* ======================================
                START
-            ====================================================== */
+            ====================================== */
 
-            recognition.onstart =
-                function () {
+            recognition.onstart = function () {
 
-                    console.log(
-                        "Voice recognition started"
-                    );
+                isListening = true;
 
+                micBtn.classList.add("listening");
 
-                    micBtn.classList.add(
-                        "listening"
-                    );
+                wave.classList.add("active");
 
+                status.textContent =
+                    "LISTENING...";
 
-                    wave.classList.add(
-                        "active"
-                    );
+                transcript.textContent =
+                    "Speak your command...";
+            };
 
 
-                    status.textContent =
-                        "Listening... Speak your command";
-
-
-                    transcript.textContent =
-                        "";
-                };
-
-
-
-            /* =====================================================
+            /* ======================================
                RESULT
-            ====================================================== */
+            ====================================== */
 
             recognition.onresult =
-                async function (event) {
+                function (event) {
 
-                    const commandText =
+                    const command =
                         event.results[0][0].transcript;
 
 
-                    console.log(
-                        "Command:",
-                        commandText
-                    );
-
-
                     transcript.textContent =
-                        commandText;
+                        command;
 
 
                     status.textContent =
-                        "Processing command...";
+                        "PROCESSING COMMAND...";
 
 
-                    wave.classList.remove(
-                        "active"
-                    );
-
-
-                    await sendCommand(
-                        commandText
-                    );
+                    sendCommand(command);
                 };
 
 
+            /* ======================================
+               END
+            ====================================== */
 
-            /* =====================================================
+            recognition.onend = function () {
+
+                isListening = false;
+
+                micBtn.classList.remove("listening");
+
+                wave.classList.remove("active");
+
+
+                if (
+                    status.textContent ===
+                    "LISTENING..."
+                ) {
+
+                    status.textContent =
+                        "CLICK THE MIC TO START";
+                }
+            };
+
+
+            /* ======================================
                ERROR
-            ====================================================== */
+            ====================================== */
 
             recognition.onerror =
                 function (event) {
@@ -1461,10 +1214,11 @@
                     );
 
 
+                    isListening = false;
+
                     micBtn.classList.remove(
                         "listening"
                     );
-
 
                     wave.classList.remove(
                         "active"
@@ -1477,62 +1231,34 @@
                     ) {
 
                         status.textContent =
-                            "Microphone permission denied.";
+                            "MICROPHONE PERMISSION DENIED";
 
-                    }
-
-                    else if (
+                    } else if (
                         event.error ===
                         "no-speech"
                     ) {
 
                         status.textContent =
-                            "No speech detected. Try again.";
+                            "NO SPEECH DETECTED";
 
-                    }
-
-                    else {
+                    } else {
 
                         status.textContent =
-                            "Voice recognition error.";
+                            "VOICE ERROR";
                     }
                 };
 
+        } else {
 
-
-            /* =====================================================
-               END
-            ====================================================== */
-
-            recognition.onend =
-                function () {
-
-                    micBtn.classList.remove(
-                        "listening"
-                    );
-
-
-                    wave.classList.remove(
-                        "active"
-                    );
-
-
-                    if (
-                        status.textContent ===
-                        "Listening... Speak your command"
-                    ) {
-
-                        status.textContent =
-                            "Click the microphone to speak";
-                    }
-                };
+            status.textContent =
+                "VOICE RECOGNITION NOT SUPPORTED";
         }
 
 
 
-        /* =========================================================
-           MIC BUTTON
-        ========================================================= */
+        /* ==========================================
+           MIC CLICK
+        ========================================== */
 
         micBtn.addEventListener(
             "click",
@@ -1540,8 +1266,17 @@
 
                 if (!recognition) {
 
-                    status.textContent =
-                        "Speech recognition is not supported.";
+                    alert(
+                        "Your browser does not support Speech Recognition."
+                    );
+
+                    return;
+                }
+
+
+                if (isListening) {
+
+                    recognition.stop();
 
                     return;
                 }
@@ -1549,34 +1284,11 @@
 
                 try {
 
-                    if (
-                        micBtn.classList.contains(
-                            "listening"
-                        )
-                    ) {
+                    recognition.start();
 
-                        recognition.stop();
+                } catch (error) {
 
-                    }
-
-                    else {
-
-                        transcript.textContent =
-                            "";
-
-                        status.textContent =
-                            "Starting microphone...";
-
-                        recognition.start();
-                    }
-
-                }
-
-                catch (error) {
-
-                    console.error(
-                        error
-                    );
+                    console.error(error);
 
                 }
 
@@ -1585,44 +1297,41 @@
 
 
 
-        /* =========================================================
+        /* ==========================================
            SEND COMMAND TO BACKEND
-        ========================================================= */
+        ========================================== */
 
-        async function sendCommand(
-            commandText
-        ) {
+        async function sendCommand(commandText) {
 
             try {
 
+                status.textContent =
+                    "CONNECTING TO NOVA CORE...";
+
+
                 const response =
-                    await fetch(
-                        "/agent",
-                        {
+                    await fetch("/agent", {
 
-                            method:
-                                "POST",
+                        method: "POST",
 
-                            headers: {
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-                                "Content-Type":
-                                    "application/json"
-                            },
+                        body: JSON.stringify({
 
-                            body:
-                                JSON.stringify({
+                            command: commandText
 
-                                    command:
-                                        commandText
-                                })
-                        }
-                    );
+                        })
+
+                    });
 
 
                 if (!response.ok) {
 
                     throw new Error(
-                        `Server returned ${response.status}`
+                        `Server error: ${response.status}`
                     );
                 }
 
@@ -1637,41 +1346,41 @@
                 );
 
 
-                if (
-                    data.success &&
-                    data.url
-                ) {
+                if (data.success) {
 
                     status.textContent =
                         data.message ||
-                        "Command executed successfully.";
+                        "COMMAND EXECUTED";
 
 
-                    setTimeout(
-                        function () {
+                    /*
+                     * Open returned URL
+                     */
 
-                            window.open(
-                                data.url,
-                                "_blank"
-                            );
+                    if (data.url) {
 
-                        },
-                        600
-                    );
+                        setTimeout(
+                            function () {
 
-                }
+                                window.open(
+                                    data.url,
+                                    "_blank"
+                                );
 
-                else {
+                            },
+                            600
+                        );
+                    }
+
+                } else {
 
                     status.textContent =
                         data.message ||
-                        "Command completed.";
-
+                        "COMMAND FAILED";
                 }
 
-            }
 
-            catch (error) {
+            } catch (error) {
 
                 console.error(
                     "Agent error:",
@@ -1680,68 +1389,149 @@
 
 
                 status.textContent =
-                    "Unable to connect to Nova AI backend.";
+                    "AGENT CONNECTION FAILED";
             }
 
         }
 
 
 
-        /* =========================================================
-           COMMAND CHIPS
-        ========================================================= */
+        /* ==========================================
+           COMMAND CHIP CLICK
+        ========================================== */
 
         document
             .querySelectorAll(".command-chip")
-            .forEach(
-                function (chip) {
+            .forEach(function (chip) {
 
-                    chip.addEventListener(
-                        "click",
-                        function () {
+                chip.addEventListener(
+                    "click",
+                    function () {
 
-                            const command =
-                                chip.dataset.command;
-
-
-                            transcript.textContent =
-                                command;
+                        const command =
+                            this.dataset.command;
 
 
-                            status.textContent =
-                                "Processing example command...";
+                        transcript.textContent =
+                            command;
 
 
-                            sendCommand(
-                                command
-                            );
-                        }
+                        sendCommand(command);
+
+                    }
+                );
+
+            });
+
+
+
+        /* ==========================================
+           START REAR CAMERA
+        ========================================== */
+
+        async function startCamera() {
+
+            try {
+
+                if (
+                    !navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia
+                ) {
+
+                    console.warn(
+                        "Camera API not supported."
                     );
 
+                    return;
                 }
-            );
+
+
+                const stream =
+                    await navigator.mediaDevices.getUserMedia({
+
+                        video: {
+
+                            /*
+                             * Rear / Back camera
+                             */
+
+                            facingMode: {
+                                ideal: "environment"
+                            },
+
+                            width: {
+                                ideal: 1920
+                            },
+
+                            height: {
+                                ideal: 1080
+                            }
+
+                        },
+
+                        audio: false
+
+                    });
+
+
+                cameraBackground.srcObject =
+                    stream;
+
+
+                console.log(
+                    "Rear camera started."
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Camera error:",
+                    error
+                );
+
+
+                /*
+                 * Hide video if camera
+                 * permission is denied.
+                 */
+
+                cameraBackground.style.display =
+                    "none";
+            }
+
+        }
+
+
+        /* ==========================================
+           INITIALIZE CAMERA
+        ========================================== */
+
+        startCamera();
 
 
 
-        /* =========================================================
-           CAMERA CLEANUP
-        ========================================================= */
+        /* ==========================================
+           STOP CAMERA WHEN PAGE CLOSES
+        ========================================== */
 
         window.addEventListener(
             "beforeunload",
             function () {
 
-                if (cameraStream) {
+                const stream =
+                    cameraBackground.srcObject;
 
-                    cameraStream
+
+                if (stream) {
+
+                    stream
                         .getTracks()
-                        .forEach(
-                            function (track) {
+                        .forEach(function (track) {
 
-                                track.stop();
+                            track.stop();
 
-                            }
-                        );
+                        });
                 }
 
             }
